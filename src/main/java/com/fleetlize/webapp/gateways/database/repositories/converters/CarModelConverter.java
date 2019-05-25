@@ -19,8 +19,8 @@ public class CarModelConverter {
                 .id(resultSet.getLong("MODEL_ID"))
                 .model(resultSet.getString("MODEL_NAME"))
                 .modelYear(resultSet.getInt("MODEL_YEAR"))
-                .creationDate(resultSet.getObject("CREATION_DATE") != null ? resultSet.getDate("CREATION_DATE") : null)
-                .updateDate(resultSet.getObject("UPDATE_DATE") != null ? resultSet.getDate("UPDATE_DATE") : null)
+                .creationDate(resultSet.getObject("CREATION_DATE") != null ? resultSet.getTimestamp("CREATION_DATE") : null)
+                .updateDate(resultSet.getObject("UPDATE_DATE") != null ? resultSet.getTimestamp("UPDATE_DATE") : null)
                 .manufacturer(manufacturer)
                 .build();
 

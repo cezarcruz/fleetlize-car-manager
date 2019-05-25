@@ -12,8 +12,8 @@ public class ManufacturerConverter {
         return Manufacturer.builder()
                 .id(resultSet.getLong("MANUFACTURER_ID"))
                 .name(resultSet.getString("NAME"))
-                .creationDate(resultSet.getDate("CREATION_DATE"))
-                .updateDate(resultSet.getDate("UPDATE_DATE"))
+                .creationDate(resultSet.getTimestamp("CREATION_DATE"))
+                .updateDate(resultSet.getTimestamp("UPDATE_DATE"))
                 .build();
 
     }
