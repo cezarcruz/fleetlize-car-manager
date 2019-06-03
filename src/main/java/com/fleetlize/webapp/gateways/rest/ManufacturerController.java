@@ -38,7 +38,7 @@ public class ManufacturerController {
             @ApiResponse(code = 201, message = "Manufacturer created successfully"),
             @ApiResponse(code = 400, message = "API doesn't recognize sent parameters"),
             @ApiResponse(code = 412, message = "Manufacturer already exists"),
-            @ApiResponse(code = 500, message = "Internal Server Error"),
+            @ApiResponse(code = 500, message = "Internal Server ErrorResponse"),
     })
     @PostMapping
     public ResponseEntity<ManufacturerResponse> create(@RequestBody final ManufacturerRequest manufacturerRequest) {
@@ -61,7 +61,7 @@ public class ManufacturerController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "List successfully"),
             @ApiResponse(code = 400, message = "API doesn't recognize sent parameters"),
-            @ApiResponse(code = 500, message = "Internal Server Error"),
+            @ApiResponse(code = 500, message = "Internal Server ErrorResponse"),
     })
     @GetMapping
     public ResponseEntity<List<ManufacturerResponse>> list() {

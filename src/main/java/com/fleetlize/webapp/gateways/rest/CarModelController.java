@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -36,10 +37,10 @@ public class CarModelController {
             @ApiResponse(code = 201, message = "Car Model created successfully"),
             @ApiResponse(code = 400, message = "API doesn't recognize sent parameters"),
             @ApiResponse(code = 412, message = "Car Model already exists"),
-            @ApiResponse(code = 500, message = "Internal Server Error"),
+            @ApiResponse(code = 500, message = "Internal Server ErrorResponse"),
     })
     @PostMapping
-    public ResponseEntity<CarModelResponse> create(@RequestBody final CarModelRequest carModelRequest) {
+    public ResponseEntity<CarModelResponse> create(@RequestBody @Valid final CarModelRequest carModelRequest) {
 
         final CarModel carModelToSave = CarModelRequestToCarModel.from(carModelRequest);
         final CarModel carModelSaved = createCarModel.execute(carModelToSave);
@@ -52,7 +53,7 @@ public class CarModelController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "List successfully"),
             @ApiResponse(code = 400, message = "API doesn't recognize sent parameters"),
-            @ApiResponse(code = 500, message = "Internal Server Error"),
+            @ApiResponse(code = 500, message = "Internal Server ErrorResponse"),
     })
     @GetMapping
     public ResponseEntity<List<CarModelResponse>> list() {
