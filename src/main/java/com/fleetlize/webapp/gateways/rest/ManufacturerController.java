@@ -66,6 +66,8 @@ public class ManufacturerController {
     @GetMapping
     public ResponseEntity<List<ManufacturerResponse>> list() {
 
+        log.info("Getting all manufacturers");
+
         final List<Manufacturer> manufacturerList = getManufacturer.execute();
         final List<ManufacturerResponse> manufacturerResponses
                 = ManufacturerToManufacturerResponse.from(manufacturerList);
