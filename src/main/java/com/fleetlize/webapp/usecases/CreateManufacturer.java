@@ -18,6 +18,9 @@ public class CreateManufacturer {
     private NotificationClient notificationClient;
 
     public Manufacturer execute(final Manufacturer manufacturer) {
+
+        log.info("creating new manufacturer");
+
         final Manufacturer manufacturerCreated = manufacturerRepository.create(manufacturer);
 
         final NotifyRequest notifyRequest

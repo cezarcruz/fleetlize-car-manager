@@ -1,31 +1,4 @@
-server:
-  port: 0
-
-spring:
-  application:
-    name: car-manager
-  datasource:
-    url: jdbc:mysql://localhost:3306/fleetlize
-    username: root
-    password: root
-
-logging:
-  level:
-    com:
-      fleetlize:
-        webapp:
-          gateways:
-            notification: DEBUG
-  file: /tmp/application.log
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
-
 info:
-  app:
   name: Car Manager
   description: Manager car fleet
   version: ${version}
-
