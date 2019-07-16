@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,13 +56,28 @@ public class CarModelController {
             @ApiResponse(code = 400, message = "API doesn't recognize sent parameters"),
             @ApiResponse(code = 500, message = "Internal Server ErrorResponse"),
     })
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<List<CarModelResponse>> list() {
         final List<CarModel> carModelList = getCarModel.execute();
 
         final List<CarModelResponse> carModelResponse = CarModelToCarModelResponse.from(carModelList);
 
         return ResponseEntity.ok(carModelResponse);
+    }
+
+    @ApiOperation(value = "Get Car Model Detail")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Car Model Found"),
+            @ApiResponse(code = 404, message = "Car Model Not Found")
+    })
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<CarModelResponse> getById(@PathVariable final Long id) {
+        final CarModel carModel = getCarModel.execute(id);
+
+        final CarModelResponse carModelResponse = CarModelToCarModelResponse.from(carModel);
+
+        return ResponseEntity.ok(carModelResponse);
+
     }
 
 }

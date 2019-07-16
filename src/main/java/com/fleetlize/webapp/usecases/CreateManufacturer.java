@@ -8,6 +8,7 @@ import com.fleetlize.webapp.gateways.notification.response.NotifyResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 @Slf4j
 @Service
@@ -18,6 +19,8 @@ public class CreateManufacturer {
     private NotificationClient notificationClient;
 
     public Manufacturer execute(final Manufacturer manufacturer) {
+
+        Assert.notNull(manufacturer, "manufacturer can't be null");
 
         log.info("creating new manufacturer");
 
