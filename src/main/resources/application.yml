@@ -1,8 +1,4 @@
-spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/fleetlize
-    username: root
-    password: root
-
-logging:
-  file: /tmp/application.log
+info:
+  name: Car Manager
+  description: Manager car fleet
+  version: ${version}

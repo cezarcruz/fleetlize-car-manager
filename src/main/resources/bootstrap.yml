@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: car-manager
+  cloud:
+    consul:
+      config:
+        enabled: true

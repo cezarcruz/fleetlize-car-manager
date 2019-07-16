@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,14 +64,38 @@ public class ManufacturerController {
             @ApiResponse(code = 400, message = "API doesn't recognize sent parameters"),
             @ApiResponse(code = 500, message = "Internal Server ErrorResponse"),
     })
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<List<ManufacturerResponse>> list() {
+
+        log.info("Getting all manufacturers");
 
         final List<Manufacturer> manufacturerList = getManufacturer.execute();
         final List<ManufacturerResponse> manufacturerResponses
                 = ManufacturerToManufacturerResponse.from(manufacturerList);
 
         return ResponseEntity.ok(manufacturerResponses);
+    }
+
+    @ApiOperation(value = "Get Manufacturer by Id")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Manufacturer Detail"),
+            @ApiResponse(code = 404, message = "Manufacturer not found")
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<ManufacturerResponse> getById(@PathVariable final Long id) {
+
+        log.info("getting manufacturer by id {}", id);
+
+        final Manufacturer manufacturer = getManufacturer.execute(id);
+
+        if (manufacturer == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        final ManufacturerResponse manufacturerResponse = ManufacturerToManufacturerResponse.from(manufacturer);
+
+        return ResponseEntity.ok(manufacturerResponse);
+
     }
 
 

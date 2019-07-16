@@ -28,9 +28,9 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                "Fleetlize Rest Api",
-                "Api to manager a small store",
-                "API TOS",
+                "Car Manager Rest Api",
+                "Api to manager car info",
+                "0.1",
                 "Terms of service", new Contact("Cezar Cruz", "http://cezarcruz.com.br", "****"),
                 "",
                 "",
