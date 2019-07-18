@@ -1,6 +1,7 @@
 package com.fleetlize.webapp.usecases;
 
 import com.fleetlize.webapp.entities.Manufacturer;
+import com.fleetlize.webapp.exceptions.ManufacturerNotFoundException;
 import com.fleetlize.webapp.gateways.database.repositories.ManufacturerRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -30,6 +32,7 @@ public class GetManufacturer {
 
         log.info("executing get manufacturer");
 
-        return manufacturerRepository.findById(id);
+        final Optional<Manufacturer> manufacturer = manufacturerRepository.findById(id);
+        return manufacturer.orElseThrow(ManufacturerNotFoundException::new);
     }
 }

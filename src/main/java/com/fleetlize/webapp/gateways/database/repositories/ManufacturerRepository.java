@@ -4,6 +4,7 @@ import com.fleetlize.webapp.entities.Manufacturer;
 import com.fleetlize.webapp.gateways.database.repositories.converters.ManufacturerConverter;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Repository
@@ -50,7 +52,7 @@ public class ManufacturerRepository {
         return jdbcTemplate.query(sql, ManufacturerConverter::convert);
     }
 
-    public Manufacturer findById(final Long id) {
+    public Optional<Manufacturer> findById(final Long id) {
 
         log.debug("getting manufacturer by id = {}", id);
 
@@ -59,6 +61,11 @@ public class ManufacturerRepository {
         final MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("ID", id);
 
-        return jdbcTemplate.queryForObject(sql, params, ManufacturerConverter::convert);
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, params, ManufacturerConverter::convert));
+        } catch (final EmptyResultDataAccessException ex) {
+            log.error("error getting manufacturer");
+            return Optional.empty();
+        }
     }
 }

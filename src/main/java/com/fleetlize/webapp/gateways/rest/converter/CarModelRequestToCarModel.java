@@ -21,4 +21,8 @@ public class CarModelRequestToCarModel {
 
     }
 
+    public static CarModel from(final CarModelRequest carModelRequest, final Long id) {
+        final CarModel carModel = from(carModelRequest);
+        return carModel.toBuilder().id(id).build();
+    }
 }
