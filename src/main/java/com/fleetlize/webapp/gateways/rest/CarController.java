@@ -1,8 +1,7 @@
 package com.fleetlize.webapp.gateways.rest;
 
 import com.fleetlize.webapp.entities.Car;
-import com.fleetlize.webapp.gateways.rest.converter.CarModelToCarResponse;
-import com.fleetlize.webapp.gateways.rest.converter.CarRequestToCar;
+import com.fleetlize.webapp.gateways.rest.mappers.CarMapper;
 import com.fleetlize.webapp.gateways.rest.request.CarRequest;
 import com.fleetlize.webapp.gateways.rest.response.CarResponse;
 import com.fleetlize.webapp.usecases.impl.CreateCar;
@@ -10,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,14 +23,12 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @RequestMapping("/car")
+@AllArgsConstructor
 @Api(value = "Car")
 public class CarController {
 
     private CreateCar createCar;
-
-    public CarController(final CreateCar createCar) {
-        this.createCar = createCar;
-    }
+    private CarMapper carMapper;
 
     @ApiOperation(value = "Creates a new Car")
     @ApiResponses({
@@ -42,9 +40,9 @@ public class CarController {
     @PostMapping
     public ResponseEntity<CarResponse> create(@RequestBody @Valid final CarRequest carRequest) {
 
-        final Car carToSave = CarRequestToCar.from(carRequest);
+        final Car carToSave = carMapper.from(carRequest);
         final Car carSaved = createCar.execute(carToSave);
-        final CarResponse carResponse = CarModelToCarResponse.from(carSaved);
+        final CarResponse carResponse = carMapper.from(carSaved);
         return ResponseEntity.status(HttpStatus.CREATED).body(carResponse);
 
     }
