@@ -1,12 +1,12 @@
 package com.fleetlize.webapp.gateways.rest;
 
 import com.fleetlize.webapp.entities.Manufacturer;
-import com.fleetlize.webapp.usecases.GetManufacturer;
+import com.fleetlize.webapp.usecases.impl.GetManufacturer;
 import com.fleetlize.webapp.gateways.rest.converter.ManufacturerRequestToManufacturer;
 import com.fleetlize.webapp.gateways.rest.converter.ManufacturerToManufacturerResponse;
 import com.fleetlize.webapp.gateways.rest.request.ManufacturerRequest;
 import com.fleetlize.webapp.gateways.rest.response.ManufacturerResponse;
-import com.fleetlize.webapp.usecases.CreateManufacturer;
+import com.fleetlize.webapp.usecases.impl.CreateManufacturer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

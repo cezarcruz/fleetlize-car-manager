@@ -1,4 +1,4 @@
-package com.fleetlize.webapp.usecases;
+package com.fleetlize.webapp.usecases.impl;
 
 import com.fleetlize.webapp.entities.Manufacturer;
 import com.fleetlize.webapp.exceptions.ManufacturerNotFoundException;

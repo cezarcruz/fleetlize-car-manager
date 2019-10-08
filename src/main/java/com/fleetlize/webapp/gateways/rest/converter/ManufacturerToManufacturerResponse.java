@@ -4,8 +4,11 @@ import com.fleetlize.webapp.entities.Manufacturer;
 import com.fleetlize.webapp.gateways.rest.response.ManufacturerResponse;
 import org.springframework.util.Assert;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.springframework.util.ObjectUtils.isEmpty;
 
 public class ManufacturerToManufacturerResponse {
 
@@ -23,7 +26,11 @@ public class ManufacturerToManufacturerResponse {
 
     public static List<ManufacturerResponse> from(final List<Manufacturer> manufacturerList) {
 
-        Assert.notEmpty(manufacturerList, "manufacturer execute can't be null or empty");
+        Assert.notNull(manufacturerList, "manufacturer can't be null");
+
+        if (isEmpty(manufacturerList)) {
+            return Collections.emptyList();
+        }
 
         return manufacturerList.parallelStream()
                 .map(ManufacturerToManufacturerResponse::from)
