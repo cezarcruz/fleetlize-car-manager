@@ -1,12 +1,11 @@
 package com.fleetlize.webapp.gateways.rest;
 
 import com.fleetlize.webapp.entities.Manufacturer;
-import com.fleetlize.webapp.usecases.impl.GetManufacturer;
-import com.fleetlize.webapp.gateways.rest.converter.ManufacturerRequestToManufacturer;
-import com.fleetlize.webapp.gateways.rest.converter.ManufacturerToManufacturerResponse;
+import com.fleetlize.webapp.gateways.rest.mappers.ManufacturerMapper;
 import com.fleetlize.webapp.gateways.rest.request.ManufacturerRequest;
 import com.fleetlize.webapp.gateways.rest.response.ManufacturerResponse;
 import com.fleetlize.webapp.usecases.impl.CreateManufacturer;
+import com.fleetlize.webapp.usecases.impl.GetManufacturer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -31,6 +30,7 @@ import java.util.List;
 @Api(value = "Manufacturers")
 public class ManufacturerController {
 
+    private ManufacturerMapper manufacturerMapper;
     private CreateManufacturer createManufacturer;
     private GetManufacturer getManufacturer;
 
@@ -46,11 +46,11 @@ public class ManufacturerController {
 
         log.info("Creating a new manufacturer: {}", manufacturerRequest.getName());
 
-        final Manufacturer manufacturer = ManufacturerRequestToManufacturer.from(manufacturerRequest);
+        final Manufacturer manufacturer = manufacturerMapper.from(manufacturerRequest);
 
         final Manufacturer manufacturerCreated = createManufacturer.execute(manufacturer);
 
-        final ManufacturerResponse response = ManufacturerToManufacturerResponse.from(manufacturerCreated);
+        final ManufacturerResponse response = manufacturerMapper.from(manufacturerCreated);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -71,7 +71,7 @@ public class ManufacturerController {
 
         final List<Manufacturer> manufacturerList = getManufacturer.execute();
         final List<ManufacturerResponse> manufacturerResponses
-                = ManufacturerToManufacturerResponse.from(manufacturerList);
+                = manufacturerMapper.from(manufacturerList);
 
         return ResponseEntity.ok(manufacturerResponses);
     }
@@ -92,7 +92,7 @@ public class ManufacturerController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        final ManufacturerResponse manufacturerResponse = ManufacturerToManufacturerResponse.from(manufacturer);
+        final ManufacturerResponse manufacturerResponse = manufacturerMapper.from(manufacturer);
 
         return ResponseEntity.ok(manufacturerResponse);
 

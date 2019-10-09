@@ -1,8 +1,7 @@
 package com.fleetlize.webapp.gateways.rest;
 
 import com.fleetlize.webapp.entities.CarModel;
-import com.fleetlize.webapp.gateways.rest.converter.CarModelRequestToCarModel;
-import com.fleetlize.webapp.gateways.rest.converter.CarModelToCarModelResponse;
+import com.fleetlize.webapp.gateways.rest.mappers.CarModelMapper;
 import com.fleetlize.webapp.gateways.rest.request.CarModelRequest;
 import com.fleetlize.webapp.gateways.rest.response.CarModelResponse;
 import com.fleetlize.webapp.usecases.impl.CreateCarModel;
@@ -40,6 +39,7 @@ public class CarModelController {
     private GetCarModel getCarModel;
     private DeleteCarModel deleteCarModel;
     private UpdateCarModel updateCarModel;
+    private CarModelMapper carModelMapper;
 
     @ApiOperation(value = "Creates a new Car Model")
     @ApiResponses({
@@ -51,9 +51,9 @@ public class CarModelController {
     @PostMapping
     public ResponseEntity<CarModelResponse> create(@RequestBody @Valid final CarModelRequest carModelRequest) {
 
-        final CarModel carModelToSave = CarModelRequestToCarModel.from(carModelRequest);
+        final CarModel carModelToSave = carModelMapper.from(carModelRequest);
         final CarModel carModelSaved = createCarModel.execute(carModelToSave);
-        final CarModelResponse carModelResponse = CarModelToCarModelResponse.from(carModelSaved);
+        final CarModelResponse carModelResponse = carModelMapper.from(carModelSaved);
         return ResponseEntity.status(HttpStatus.CREATED).body(carModelResponse);
 
     }
@@ -68,7 +68,7 @@ public class CarModelController {
     public ResponseEntity<List<CarModelResponse>> list() {
         final List<CarModel> carModelList = getCarModel.execute();
 
-        final List<CarModelResponse> carModelResponse = CarModelToCarModelResponse.from(carModelList);
+        final List<CarModelResponse> carModelResponse = carModelMapper.from(carModelList);
 
         return ResponseEntity.ok(carModelResponse);
     }
@@ -82,7 +82,7 @@ public class CarModelController {
     public ResponseEntity<CarModelResponse> getById(@PathVariable final Long id) {
         final CarModel carModel = getCarModel.execute(id);
 
-        final CarModelResponse carModelResponse = CarModelToCarModelResponse.from(carModel);
+        final CarModelResponse carModelResponse = carModelMapper.from(carModel);
 
         return ResponseEntity.ok(carModelResponse);
 
@@ -111,11 +111,11 @@ public class CarModelController {
 
         log.info("updating car model {}", id);
 
-        final CarModel carModel = CarModelRequestToCarModel.from(carModelRequest, id);
+        final CarModel carModel = carModelMapper.from(carModelRequest, id);
 
         final CarModel updatedCarModel = updateCarModel.execute(carModel);
 
-        return ResponseEntity.ok(CarModelToCarModelResponse.from(updatedCarModel));
+        return ResponseEntity.ok(carModelMapper.from(updatedCarModel));
 
     }
 
