@@ -1,0 +1,15 @@
+logging:
+  file: ${LOG_PATH:/tml/car-manager.log}
+
+server:
+  port: 8081
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: ${DB_PASS}
+    url: ${DB_URL}
+    username: ${DB_USER}
+  sleuth:
+    sampler:
+      probability: 1.0

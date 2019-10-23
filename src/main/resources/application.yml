@@ -1,4 +1,0 @@
-info:
-  name: Car Manager
-  description: Manager car fleet
-  version: ${version}

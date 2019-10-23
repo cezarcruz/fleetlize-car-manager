@@ -1,7 +1,13 @@
+info:
+  name: Car Manager
+  description: Manager car fleet
+  version: ${version}
+
+
 spring:
   application:
     name: car-manager
   cloud:
     consul:
       config:
-        enabled: true
+        enabled: ${CONSUL_ENABLED:false}
