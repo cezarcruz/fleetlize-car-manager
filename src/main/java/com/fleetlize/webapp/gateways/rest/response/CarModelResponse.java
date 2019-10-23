@@ -10,9 +10,11 @@ import java.util.Date;
 @Setter
 @Builder
 public class CarModelResponse {
+
     private Long id;
     private String model;
     private Long manufacturer;
     private Date creationDate;
     private Date updateDate;
+
 }

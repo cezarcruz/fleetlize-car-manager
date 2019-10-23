@@ -19,7 +19,9 @@ public class CreateCar implements BasicCreate<Car> {
 
     public Car execute(final Car car) {
         log.info("executing create car");
+
         Assert.notNull(car, "car can't be null");
+
         return carRepository.insert(car);
     }
 

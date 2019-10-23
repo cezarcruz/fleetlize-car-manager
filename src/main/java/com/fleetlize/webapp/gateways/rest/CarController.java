@@ -1,6 +1,5 @@
 package com.fleetlize.webapp.gateways.rest;
 
-import com.fleetlize.webapp.entities.Car;
 import com.fleetlize.webapp.gateways.rest.mappers.CarMapper;
 import com.fleetlize.webapp.gateways.rest.request.CarRequest;
 import com.fleetlize.webapp.gateways.rest.response.CarResponse;
@@ -40,9 +39,9 @@ public class CarController {
     @PostMapping
     public ResponseEntity<CarResponse> create(@RequestBody @Valid final CarRequest carRequest) {
 
-        final Car carToSave = carMapper.from(carRequest);
-        final Car carSaved = createCar.execute(carToSave);
-        final CarResponse carResponse = carMapper.from(carSaved);
+        final var carToSave = carMapper.from(carRequest);
+        final var carSaved = createCar.execute(carToSave);
+        final var carResponse = carMapper.from(carSaved);
         return ResponseEntity.status(HttpStatus.CREATED).body(carResponse);
 
     }
