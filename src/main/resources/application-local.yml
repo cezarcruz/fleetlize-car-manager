@@ -1,5 +1,5 @@
 logging:
-  file: ${LOG_PATH:/tml/car-manager.log}
+  file: ${LOG_PATH:/tmp/car-manager.log}
 
 server:
   port: 8081

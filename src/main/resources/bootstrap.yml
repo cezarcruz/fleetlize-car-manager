@@ -3,7 +3,6 @@ info:
   description: Manager car fleet
   version: ${version}
 
-
 spring:
   application:
     name: car-manager
