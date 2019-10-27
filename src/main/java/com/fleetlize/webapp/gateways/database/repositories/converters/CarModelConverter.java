@@ -8,6 +8,9 @@ import java.sql.SQLException;
 
 public class CarModelConverter {
 
+    private CarModelConverter() {
+    }
+
     public static CarModel from(final ResultSet resultSet, final int i) throws SQLException {
 
         final Manufacturer manufacturer = Manufacturer.builder()

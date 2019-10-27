@@ -9,3 +9,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+fleetlize:
+  jms:
+    topic:
+      car-creation: car-creation

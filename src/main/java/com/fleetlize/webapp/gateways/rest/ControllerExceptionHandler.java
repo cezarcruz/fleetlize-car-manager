@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -26,14 +27,20 @@ public class ControllerExceptionHandler {
 
         final BindingResult result = ex.getBindingResult();
 
-        final List<ValidationError> errors = result.getFieldErrors().parallelStream().map( fieldError -> {
-           return ValidationError.builder().field(fieldError.getField()).message(fieldError.getDefaultMessage()).build();
-        }).collect(Collectors.toList());
+        final List<ValidationError> errors
+                = result.getFieldErrors()
+                    .stream()
+                    .map(this::getValidationError)
+                    .collect(Collectors.toList());
 
         final FieldErrorResponse validationError = FieldErrorResponse.builder().errors(errors).message("validation error").build();
 
         return ResponseEntity.badRequest().body(validationError);
 
+    }
+
+    private ValidationError getValidationError(final FieldError fieldError) {
+        return ValidationError.builder().field(fieldError.getField()).message(fieldError.getDefaultMessage()).build();
     }
 
     @ExceptionHandler(Exception.class)

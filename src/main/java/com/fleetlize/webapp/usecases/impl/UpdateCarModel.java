@@ -29,11 +29,11 @@ public class UpdateCarModel {
         }
 
         final Optional<Manufacturer> manufacturer = manufacturerRepository.findById(carModel.getManufacturer().getId());
-        manufacturer.orElseThrow(ManufacturerNotFoundException::new);
 
-        carModelRepository.update(carModel);
-
-        return carModelRepository.findById(carModel.getId());
+        return manufacturer.map(m -> {
+            carModelRepository.update(carModel);
+            return carModelRepository.findById(carModel.getId());
+        }).orElseThrow(ManufacturerNotFoundException::new);
 
     }
 
