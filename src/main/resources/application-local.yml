@@ -1,5 +1,11 @@
 logging:
   file: ${LOG_PATH:/tmp/car-manager.log}
+  level:
+    com:
+      fleetlize: DEBUG
+    org:
+      springframework:
+        jms: DEBUG
 
 server:
   port: 8081
@@ -13,3 +19,8 @@ spring:
   sleuth:
     sampler:
       probability: 1.0
+
+fleetlize:
+  jms:
+    topic:
+      car-creation: car-creation
