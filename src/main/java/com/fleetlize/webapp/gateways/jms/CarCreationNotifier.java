@@ -1,5 +1,7 @@
 package com.fleetlize.webapp.gateways.jms;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fleetlize.webapp.configurations.JmsParams;
 import com.fleetlize.webapp.entities.Car;
 import com.fleetlize.webapp.gateways.jms.mapper.CarCreationMapper;
@@ -14,13 +16,16 @@ public class CarCreationNotifier {
     private JmsTemplate jmsTemplateTopic;
     private JmsParams jmsParams;
     private CarCreationMapper carCreationMapper;
+    private ObjectMapper objectMapper;
 
     public CarCreationNotifier(final JmsTemplate jmsTemplateTopic,
                                final JmsParams jmsParams,
-                               final CarCreationMapper carCreationMapper) {
+                               final CarCreationMapper carCreationMapper,
+                               final ObjectMapper objectMapper) {
         this.jmsTemplateTopic = jmsTemplateTopic;
         this.jmsParams = jmsParams;
         this.carCreationMapper = carCreationMapper;
+        this.objectMapper = objectMapper;
     }
 
     public void notify(final Car car) {
@@ -32,7 +37,11 @@ public class CarCreationNotifier {
 
         log.debug("notify car creation message {}", from);
 
-        jmsTemplateTopic.convertAndSend(jmsParams.getCarCreation(), from.toString());
+        try {
+            jmsTemplateTopic.convertAndSend(jmsParams.getCarCreation(), objectMapper.writeValueAsString(from));
+        } catch (final JsonProcessingException ex) {
+            log.error("Error in object to string", ex);
+        }
     }
 
 }

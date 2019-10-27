@@ -5,12 +5,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.io.Serializable;
-
 @AllArgsConstructor
 @Builder
 @Getter
 @ToString
-public class CarCreationNotifier implements Serializable {
+public class CarCreationNotifier {
     private String plate;
 }
