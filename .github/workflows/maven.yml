@@ -21,8 +21,9 @@ jobs:
   show-tests:
     name: arquive coverage
     runs-on: ubuntu-latest
-    uses: actions/upload-artifact@v1
-    with:
-      name: coverage-report
-      path: target/site/jacoco/index.html
+    steps:
+      - uses: actions/upload-artifact@v1
+      - with:
+          name: coverage-report
+          path: target/site/jacoco/index.html
     
