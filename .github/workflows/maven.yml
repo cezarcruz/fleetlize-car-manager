@@ -12,12 +12,8 @@ jobs:
           java-version: 11
       - name: compile
       - run: mvn -B compile
-  test:
-    name: test
-    runs-on: ubuntu-latest
-    steps:    
       - name: test with Maven
-        run: mvn -B test
+      - run: mvn -B test
   show-tests:
     name: arquive coverage
     runs-on: ubuntu-latest
