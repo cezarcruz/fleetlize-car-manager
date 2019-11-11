@@ -14,12 +14,8 @@ jobs:
       - run: mvn -B compile
       - name: test with Maven
       - run: mvn -B test
-  show-tests:
-    name: arquive coverage
-    runs-on: ubuntu-latest
-    steps:
       - uses: actions/upload-artifact@v1
-      - with:
+        with:
           name: coverage-report
           path: target/site/jacoco/index.html
     
