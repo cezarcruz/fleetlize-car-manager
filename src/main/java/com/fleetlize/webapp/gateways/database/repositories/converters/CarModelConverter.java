@@ -16,6 +16,8 @@ public class CarModelConverter {
         final Manufacturer manufacturer = Manufacturer.builder()
                 .id(resultSet.getLong("MANUFACTURER_ID"))
                 .name(resultSet.getString("NAME"))
+                .creationDate(resultSet.getObject("MA_CREATION_DATE") != null ? resultSet.getTimestamp("MA_CREATION_DATE") : null)
+                .updateDate(resultSet.getObject("MA_UPDATE_DATE") != null ? resultSet.getTimestamp("MA_UPDATE_DATE") : null)
                 .build();
 
         return CarModel.builder()

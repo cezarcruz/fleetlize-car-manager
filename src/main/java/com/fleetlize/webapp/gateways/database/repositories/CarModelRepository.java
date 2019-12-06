@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Repository
@@ -49,14 +50,15 @@ public class CarModelRepository {
         return jdbcTemplate.query(Queries.FIND_CAR_MODEL, new MapSqlParameterSource(), CarModelConverter::from);
     }
 
-    public CarModel findById(final Long id) {
+    public Optional<CarModel> findById(final Long id) {
 
         log.debug("finding car model by id = {}", id);
 
         final MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("ID", id);
 
-        return jdbcTemplate.queryForObject(Queries.FIND_CAR_MODEL_BY_ID, params, CarModelConverter::from);
+        //TODO: may change this ofNullable
+        return Optional.ofNullable(jdbcTemplate.queryForObject(Queries.FIND_CAR_MODEL_BY_ID, params, CarModelConverter::from));
     }
 
     public void delete(final Long id) {

@@ -11,6 +11,5 @@ public interface CarMapper {
     @Mapping(source = "carModel", target = "carModel.id")
     Car from(final CarRequest carRequest);
 
-    @Mapping(source = "carModel.id", target = "carModel")
     CarResponse from(final Car car);
 }

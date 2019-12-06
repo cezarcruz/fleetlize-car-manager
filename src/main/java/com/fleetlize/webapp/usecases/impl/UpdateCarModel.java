@@ -22,17 +22,14 @@ public class UpdateCarModel {
 
     public CarModel execute(final CarModel carModel) {
 
-        final CarModel carModelFounded = carModelRepository.findById(carModel.getId());
+        carModelRepository.findById(carModel.getId()).orElseThrow(CarModelNotFoundException::new);
 
-        if (carModelFounded == null) {
-            throw new CarModelNotFoundException();
-        }
-
-        final Optional<Manufacturer> manufacturer = manufacturerRepository.findById(carModel.getManufacturer().getId());
+        final Optional<Manufacturer> manufacturer =
+                manufacturerRepository.findById(carModel.getManufacturer().getId());
 
         return manufacturer.map(m -> {
             carModelRepository.update(carModel);
-            return carModelRepository.findById(carModel.getId());
+            return carModel;
         }).orElseThrow(ManufacturerNotFoundException::new);
 
     }

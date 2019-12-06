@@ -1,5 +1,6 @@
 package com.fleetlize.webapp.gateways.rest.response;
 
+import com.fleetlize.webapp.entities.CarModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,5 +14,5 @@ public class CarResponse {
     private Long id;
     private String plate;
     private Integer mileage;
-    private Long carModel;
+    private CarModel carModel;
 }

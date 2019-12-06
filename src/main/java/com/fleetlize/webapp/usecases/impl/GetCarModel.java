@@ -30,13 +30,9 @@ public class GetCarModel {
 
         log.info("executing get car model by id = {}", id);
 
-        final CarModel carModel = carModelRepository.findById(id);
+        final var carModel = carModelRepository.findById(id);
 
-        if (carModel == null) {
-            throw new CarModelNotFoundException();
-        }
-
-        return carModel;
+        return carModel.orElseThrow(CarModelNotFoundException::new);
     }
 
 }
