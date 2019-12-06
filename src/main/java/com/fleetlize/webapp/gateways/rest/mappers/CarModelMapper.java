@@ -15,7 +15,6 @@ public interface CarModelMapper {
     @Mapping(source = "manufacturerId", target = "manufacturer.id")
     CarModel from(final CarModelRequest carModelRequest);
 
-    @Mapping(source = "manufacturer.id", target = "manufacturer")
     CarModelResponse from(final CarModel carModel);
 
     @Mapping(source = "carModel.manufacturerId", target = "manufacturer.id")

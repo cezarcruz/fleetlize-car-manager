@@ -13,7 +13,7 @@ public class CarModelResponse {
 
     private Long id;
     private String model;
-    private Long manufacturer;
+    private ManufacturerResponse manufacturer;
     private Date creationDate;
     private Date updateDate;
 

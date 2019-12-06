@@ -28,11 +28,10 @@ public class CreateCarModel {
 
         final Optional<Manufacturer> manufacturer = manufacturerRepository.findById(carModel.getManufacturer().getId());
 
-        if (manufacturer.isPresent()) {
-            return carModelRepository.insert(carModel);
-        } else {
-            throw new ManufacturerNotFoundException();
-        }
+        return manufacturer.map( m -> {
+            final var carModelSaved = carModelRepository.insert(carModel);
+            return carModelSaved.toBuilder().manufacturer(m).build();
+        }).orElseThrow(ManufacturerNotFoundException::new);
 
     }
 
