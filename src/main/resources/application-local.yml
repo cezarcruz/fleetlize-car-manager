@@ -13,9 +13,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    password: ${DB_PASS}
-    url: ${DB_URL}
-    username: ${DB_USER}
+    password: ${DB_PASS:root}
+    url: ${DB_URL:jdbc:mysql://localhost:3306/fleetlize}
+    username: ${DB_USER:root}
   sleuth:
     sampler:
       probability: 1.0

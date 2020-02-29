@@ -3,6 +3,7 @@ package com.fleetlize.webapp.configurations;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.connection.CachingConnectionFactory;
 import org.springframework.jms.core.JmsTemplate;
 
@@ -12,24 +13,21 @@ import javax.jms.ConnectionFactory;
 public class JmsConfig {
 
     @Bean
-    public ConnectionFactory senderActiveMQConnectionFactory() {
-        final ActiveMQConnectionFactory activeMQConnectionFactory =
-                new ActiveMQConnectionFactory();
+    public ConnectionFactory receiverActiveMQConnectionFactory() {
+        ActiveMQConnectionFactory activeMQConnectionFactory =
+            new ActiveMQConnectionFactory();
         activeMQConnectionFactory.setBrokerURL("tcp://localhost:61616");
 
         return activeMQConnectionFactory;
     }
 
     @Bean
-    public ConnectionFactory cachingConnectionFactory() {
-        return new CachingConnectionFactory(senderActiveMQConnectionFactory());
-    }
+    public DefaultJmsListenerContainerFactory jmsListenerContainerFactory() {
+        final DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+        factory.setConnectionFactory(receiverActiveMQConnectionFactory());
+        factory.setPubSubDomain(true);
 
-    @Bean
-    public JmsTemplate jmsTemplate() {
-        final JmsTemplate jmsTemplate = new JmsTemplate(cachingConnectionFactory());
-        jmsTemplate.setPubSubDomain(true);
-        return jmsTemplate;
+        return factory;
     }
 
 
