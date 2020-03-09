@@ -16,24 +16,24 @@ import java.util.Collections;
 @EnableSwagger2
 public class SwaggerConfig {
 
-    @Bean
-    public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.fleetlize.webapp"))
-                .paths(PathSelectors.any())
-                .build()
-                .apiInfo(apiInfo());
-    }
+  @Bean
+  public Docket api() {
+    return new Docket(DocumentationType.SWAGGER_2)
+        .select()
+        .apis(RequestHandlerSelectors.basePackage("com.fleetlize.webapp"))
+        .paths(PathSelectors.any())
+        .build()
+        .apiInfo(apiInfo());
+  }
 
-    private ApiInfo apiInfo() {
-        return new ApiInfo(
-                "Car Manager Rest Api",
-                "Api to manager car info",
-                "0.1",
-                "Terms of service", new Contact("Cezar Cruz", "http://cezarcruz.com.br", "****"),
-                "",
-                "",
-                Collections.emptyList() );
-    }
+  private ApiInfo apiInfo() {
+    return new ApiInfo(
+        "Car Manager Rest Api",
+        "Api to manager car info",
+        "0.1",
+        "Terms of service", new Contact("Cezar Cruz", "http://cezarcruz.com.br", "****"),
+        "",
+        "",
+        Collections.emptyList() );
+  }
 }
