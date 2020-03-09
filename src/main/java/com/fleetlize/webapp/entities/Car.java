@@ -14,4 +14,5 @@ public class Car {
   private CarModel carModel;
   private Date creationDate;
   private Date updateDate;
+  private Category category;
 }
