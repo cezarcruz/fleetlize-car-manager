@@ -8,6 +8,6 @@ import java.util.List;
 @Value
 @Builder
 public class FieldErrorResponse {
-    private String message;
-    private List<ValidationError> errors;
+  private String message;
+  private List<ValidationError> errors;
 }

@@ -12,30 +12,30 @@ import org.springframework.stereotype.Service;
 @Service
 public class CreateCar implements BasicCreate<Car> {
 
-    private CarRepository carRepository;
-    private CarModelRepository carModelRepository;
-    private CarCreationNotifier carCreationNotifier;
+  private CarRepository carRepository;
+  private CarModelRepository carModelRepository;
+  private CarCreationNotifier carCreationNotifier;
 
-    public CreateCar(final CarRepository carRepository,
-                     final CarModelRepository carModelRepository,
-                     final CarCreationNotifier carCreationNotifier) {
-        this.carRepository = carRepository;
-        this.carModelRepository = carModelRepository;
-        this.carCreationNotifier = carCreationNotifier;
-    }
+  public CreateCar(final CarRepository carRepository,
+      final CarModelRepository carModelRepository,
+      final CarCreationNotifier carCreationNotifier) {
+    this.carRepository = carRepository;
+    this.carModelRepository = carModelRepository;
+    this.carCreationNotifier = carCreationNotifier;
+  }
 
-    public Car execute(final Car car) {
-        log.info("executing create car");
+  public Car execute(final Car car) {
+    log.info("executing create car");
 
-        final var carModel = carModelRepository.findById(car.getCarModel().getId());
+    final var carModel = carModelRepository.findById(car.getCarModel().getId());
 
-        return carModel.map(c -> {
-            final var carInserted = carRepository.insert(car);
-            carCreationNotifier.notify(carInserted);
-            return carInserted.toBuilder().carModel(c).build();
-        }).orElseThrow(RuntimeException::new);//FIXME - create busines ex.
+    return carModel.map(c -> {
+      final var carInserted = carRepository.insert(car);
+      carCreationNotifier.notify(carInserted);
+      return carInserted.toBuilder().carModel(c).build();
+    }).orElseThrow(RuntimeException::new);//FIXME - create busines ex.
 
 
-    }
+  }
 
 }

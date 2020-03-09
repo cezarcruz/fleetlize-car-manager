@@ -7,6 +7,6 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface CarCreationMapper {
 
-    CarCreationNotifier from(final Car car);
+  CarCreationNotifier from(final Car car);
 
 }

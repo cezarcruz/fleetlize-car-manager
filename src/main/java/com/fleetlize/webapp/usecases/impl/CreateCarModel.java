@@ -17,22 +17,22 @@ import java.util.Optional;
 @AllArgsConstructor
 public class CreateCarModel {
 
-    private CarModelRepository carModelRepository;
-    private ManufacturerRepository manufacturerRepository;
+  private CarModelRepository carModelRepository;
+  private ManufacturerRepository manufacturerRepository;
 
-    public CarModel execute(final CarModel carModel) {
+  public CarModel execute(final CarModel carModel) {
 
-        log.info("executing create car model");
+    log.info("executing create car model");
 
-        Assert.notNull(carModel, "car model can't be null");
+    Assert.notNull(carModel, "car model can't be null");
 
-        final Optional<Manufacturer> manufacturer = manufacturerRepository.findById(carModel.getManufacturer().getId());
+    final Optional<Manufacturer> manufacturer = manufacturerRepository.findById(carModel.getManufacturer().getId());
 
-        return manufacturer.map( m -> {
-            final var carModelSaved = carModelRepository.insert(carModel);
-            return carModelSaved.toBuilder().manufacturer(m).build();
-        }).orElseThrow(ManufacturerNotFoundException::new);
+    return manufacturer.map( m -> {
+      final var carModelSaved = carModelRepository.insert(carModel);
+      return carModelSaved.toBuilder().manufacturer(m).build();
+    }).orElseThrow(ManufacturerNotFoundException::new);
 
-    }
+  }
 
 }

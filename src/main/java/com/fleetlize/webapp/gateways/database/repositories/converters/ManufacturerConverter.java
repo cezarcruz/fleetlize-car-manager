@@ -7,15 +7,15 @@ import java.sql.SQLException;
 
 public class ManufacturerConverter {
 
-    public static Manufacturer convert(final ResultSet resultSet, final int row) throws SQLException {
+  public static Manufacturer convert(final ResultSet resultSet, final int row) throws SQLException {
 
-        return Manufacturer.builder()
-                .id(resultSet.getLong("MANUFACTURER_ID"))
-                .name(resultSet.getString("NAME"))
-                .creationDate(resultSet.getTimestamp("CREATION_DATE"))
-                .updateDate(resultSet.getTimestamp("UPDATE_DATE"))
-                .build();
+    return Manufacturer.builder()
+        .id(resultSet.getLong("MANUFACTURER_ID"))
+        .name(resultSet.getString("NAME"))
+        .creationDate(resultSet.getTimestamp("CREATION_DATE"))
+        .updateDate(resultSet.getTimestamp("UPDATE_DATE"))
+        .build();
 
-    }
+  }
 
 }

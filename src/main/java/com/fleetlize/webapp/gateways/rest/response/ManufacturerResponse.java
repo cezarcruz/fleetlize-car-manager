@@ -9,9 +9,9 @@ import java.util.Date;
 @Builder
 public class ManufacturerResponse {
 
-    private Long id;
-    private String name;
-    private Date creationDate;
-    private Date updateDate;
+  private Long id;
+  private String name;
+  private Date creationDate;
+  private Date updateDate;
 
 }

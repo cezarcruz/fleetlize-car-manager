@@ -11,10 +11,10 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ManufacturerMapper {
 
-    Manufacturer from(final ManufacturerRequest request);
+  Manufacturer from(final ManufacturerRequest request);
 
-    ManufacturerResponse from(final Manufacturer manufacturer);
+  ManufacturerResponse from(final Manufacturer manufacturer);
 
-    @IterableMapping(qualifiedByName = "from")
-    List<ManufacturerResponse> from(final List<Manufacturer> carModelList);
+  @IterableMapping(qualifiedByName = "from")
+  List<ManufacturerResponse> from(final List<Manufacturer> carModelList);
 }

@@ -10,16 +10,16 @@ import org.springframework.util.Assert;
 @Service
 public class CreateManufacturer {
 
-    private ManufacturerRepository manufacturerRepository;
+  private ManufacturerRepository manufacturerRepository;
 
-    public CreateManufacturer(final ManufacturerRepository manufacturerRepository) {
-        this.manufacturerRepository = manufacturerRepository;
-    }
+  public CreateManufacturer(final ManufacturerRepository manufacturerRepository) {
+    this.manufacturerRepository = manufacturerRepository;
+  }
 
-    public Manufacturer execute(final Manufacturer manufacturer) {
-        Assert.notNull(manufacturer, "manufacturer can't be null");
-        log.info("creating new manufacturer");
-        return manufacturerRepository.create(manufacturer);
-    }
+  public Manufacturer execute(final Manufacturer manufacturer) {
+    Assert.notNull(manufacturer, "manufacturer can't be null");
+    log.info("creating new manufacturer");
+    return manufacturerRepository.create(manufacturer);
+  }
 
 }

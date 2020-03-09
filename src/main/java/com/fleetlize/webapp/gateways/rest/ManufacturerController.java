@@ -31,73 +31,73 @@ import java.util.List;
 @Api(value = "Manufacturers")
 public class ManufacturerController {
 
-    private ManufacturerMapper manufacturerMapper;
-    private CreateManufacturer createManufacturer;
-    private GetManufacturer getManufacturer;
+  private ManufacturerMapper manufacturerMapper;
+  private CreateManufacturer createManufacturer;
+  private GetManufacturer getManufacturer;
 
-    @ApiOperation(value = "Creates a new Manufacturer")
-    @ApiResponses({
-            @ApiResponse(code = 201, message = "Manufacturer created successfully"),
-            @ApiResponse(code = 400, message = "API doesn't recognize sent parameters"),
-            @ApiResponse(code = 412, message = "Manufacturer already exists"),
-            @ApiResponse(code = 500, message = "Internal Server ErrorResponse"),
-    })
-    @PostMapping
-    public ResponseEntity<ManufacturerResponse> create(@Valid @RequestBody final ManufacturerRequest manufacturerRequest) {
+  @ApiOperation(value = "Creates a new Manufacturer")
+  @ApiResponses({
+      @ApiResponse(code = 201, message = "Manufacturer created successfully"),
+      @ApiResponse(code = 400, message = "API doesn't recognize sent parameters"),
+      @ApiResponse(code = 412, message = "Manufacturer already exists"),
+      @ApiResponse(code = 500, message = "Internal Server ErrorResponse"),
+  })
+  @PostMapping
+  public ResponseEntity<ManufacturerResponse> create(@Valid @RequestBody final ManufacturerRequest manufacturerRequest) {
 
-        log.info("Creating a new manufacturer: {}", manufacturerRequest.getName());
+    log.info("Creating a new manufacturer: {}", manufacturerRequest.getName());
 
-        final Manufacturer manufacturer = manufacturerMapper.from(manufacturerRequest);
+    final Manufacturer manufacturer = manufacturerMapper.from(manufacturerRequest);
 
-        final Manufacturer manufacturerCreated = createManufacturer.execute(manufacturer);
+    final Manufacturer manufacturerCreated = createManufacturer.execute(manufacturer);
 
-        final ManufacturerResponse response = manufacturerMapper.from(manufacturerCreated);
+    final ManufacturerResponse response = manufacturerMapper.from(manufacturerCreated);
 
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(response);
+    return ResponseEntity
+        .status(HttpStatus.CREATED)
+        .body(response);
 
+  }
+
+  @ApiOperation(value = "List Manufacturer")
+  @ApiResponses({
+      @ApiResponse(code = 200, message = "List successfully"),
+      @ApiResponse(code = 400, message = "API doesn't recognize sent parameters"),
+      @ApiResponse(code = 500, message = "Internal Server ErrorResponse"),
+  })
+  @GetMapping("/")
+  public ResponseEntity<List<ManufacturerResponse>> list() {
+
+    log.info("Getting all manufacturers");
+
+    final List<Manufacturer> manufacturerList = getManufacturer.execute();
+    final List<ManufacturerResponse> manufacturerResponses
+        = manufacturerMapper.from(manufacturerList);
+
+    return ResponseEntity.ok(manufacturerResponses);
+  }
+
+  @ApiOperation(value = "Get Manufacturer by Id")
+  @ApiResponses({
+      @ApiResponse(code = 200, message = "Manufacturer Detail"),
+      @ApiResponse(code = 404, message = "Manufacturer not found")
+  })
+  @GetMapping("/{id}")
+  public ResponseEntity<ManufacturerResponse> getById(@PathVariable final Long id) {
+
+    log.info("getting manufacturer by id {}", id);
+
+    final Manufacturer manufacturer = getManufacturer.execute(id);
+
+    if (manufacturer == null) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    @ApiOperation(value = "List Manufacturer")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "List successfully"),
-            @ApiResponse(code = 400, message = "API doesn't recognize sent parameters"),
-            @ApiResponse(code = 500, message = "Internal Server ErrorResponse"),
-    })
-    @GetMapping("/")
-    public ResponseEntity<List<ManufacturerResponse>> list() {
+    final ManufacturerResponse manufacturerResponse = manufacturerMapper.from(manufacturer);
 
-        log.info("Getting all manufacturers");
+    return ResponseEntity.ok(manufacturerResponse);
 
-        final List<Manufacturer> manufacturerList = getManufacturer.execute();
-        final List<ManufacturerResponse> manufacturerResponses
-                = manufacturerMapper.from(manufacturerList);
-
-        return ResponseEntity.ok(manufacturerResponses);
-    }
-
-    @ApiOperation(value = "Get Manufacturer by Id")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "Manufacturer Detail"),
-            @ApiResponse(code = 404, message = "Manufacturer not found")
-    })
-    @GetMapping("/{id}")
-    public ResponseEntity<ManufacturerResponse> getById(@PathVariable final Long id) {
-
-        log.info("getting manufacturer by id {}", id);
-
-        final Manufacturer manufacturer = getManufacturer.execute(id);
-
-        if (manufacturer == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-
-        final ManufacturerResponse manufacturerResponse = manufacturerMapper.from(manufacturer);
-
-        return ResponseEntity.ok(manufacturerResponse);
-
-    }
+  }
 
 
 }

@@ -10,5 +10,5 @@ import lombok.ToString;
 @Getter
 @ToString
 public class CarCreationNotifier {
-    private String plate;
+  private String plate;
 }

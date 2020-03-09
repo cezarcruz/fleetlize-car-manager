@@ -11,6 +11,6 @@ import javax.validation.constraints.NotEmpty;
 @Setter
 public class ManufacturerRequest {
 
-    @NotEmpty(message = "can't be null or empty")
-    private String name;
+  @NotEmpty(message = "can't be null or empty")
+  private String name;
 }

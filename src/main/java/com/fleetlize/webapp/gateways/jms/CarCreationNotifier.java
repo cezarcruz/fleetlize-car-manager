@@ -13,35 +13,35 @@ import org.springframework.stereotype.Service;
 @Service
 public class CarCreationNotifier {
 
-    private JmsTemplate jmsTemplateTopic;
-    private JmsParams jmsParams;
-    private CarCreationMapper carCreationMapper;
-    private ObjectMapper objectMapper;
+  private JmsTemplate jmsTemplateTopic;
+  private JmsParams jmsParams;
+  private CarCreationMapper carCreationMapper;
+  private ObjectMapper objectMapper;
 
-    public CarCreationNotifier(final JmsTemplate jmsTemplateTopic,
-                               final JmsParams jmsParams,
-                               final CarCreationMapper carCreationMapper,
-                               final ObjectMapper objectMapper) {
-        this.jmsTemplateTopic = jmsTemplateTopic;
-        this.jmsParams = jmsParams;
-        this.carCreationMapper = carCreationMapper;
-        this.objectMapper = objectMapper;
+  public CarCreationNotifier(final JmsTemplate jmsTemplateTopic,
+      final JmsParams jmsParams,
+      final CarCreationMapper carCreationMapper,
+      final ObjectMapper objectMapper) {
+    this.jmsTemplateTopic = jmsTemplateTopic;
+    this.jmsParams = jmsParams;
+    this.carCreationMapper = carCreationMapper;
+    this.objectMapper = objectMapper;
+  }
+
+  public void notify(final Car car) {
+
+    log.info("notify car creation stream");
+    log.debug("notify car creation in topic {}", jmsParams.getCarCreation());
+
+    final var from = carCreationMapper.from(car);
+
+    log.debug("notify car creation message {}", from);
+
+    try {
+      jmsTemplateTopic.convertAndSend(jmsParams.getCarCreation(), objectMapper.writeValueAsString(from));
+    } catch (final JsonProcessingException ex) {
+      log.error("Error in object to string", ex);
     }
-
-    public void notify(final Car car) {
-
-        log.info("notify car creation stream");
-        log.debug("notify car creation in topic {}", jmsParams.getCarCreation());
-
-        final var from = carCreationMapper.from(car);
-
-        log.debug("notify car creation message {}", from);
-
-        try {
-            jmsTemplateTopic.convertAndSend(jmsParams.getCarCreation(), objectMapper.writeValueAsString(from));
-        } catch (final JsonProcessingException ex) {
-            log.error("Error in object to string", ex);
-        }
-    }
+  }
 
 }

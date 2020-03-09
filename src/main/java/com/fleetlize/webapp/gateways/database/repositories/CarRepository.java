@@ -16,29 +16,29 @@ import java.util.Date;
 @Repository
 public class CarRepository {
 
-    private NamedParameterJdbcTemplate jdbcTemplate;
+  private NamedParameterJdbcTemplate jdbcTemplate;
 
-    public CarRepository(final NamedParameterJdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+  public CarRepository(final NamedParameterJdbcTemplate jdbcTemplate) {
+    this.jdbcTemplate = jdbcTemplate;
+  }
 
-    public Car insert(final Car car) {
+  public Car insert(final Car car) {
 
-        final KeyHolder keyHolder = new GeneratedKeyHolder();
-        final Timestamp creationDate = new Timestamp(new Date().getTime());
-        final MapSqlParameterSource params = new MapSqlParameterSource();
+    final KeyHolder keyHolder = new GeneratedKeyHolder();
+    final Timestamp creationDate = new Timestamp(new Date().getTime());
+    final MapSqlParameterSource params = new MapSqlParameterSource();
 
-        params.addValue("MILEAGE", car.getMileage());
-        params.addValue("PLATE", car.getPlate());
-        params.addValue("CAR_MODEL", car.getCarModel().getId());
-        params.addValue("CREATION_DATE", creationDate);
+    params.addValue("MILEAGE", car.getMileage());
+    params.addValue("PLATE", car.getPlate());
+    params.addValue("CAR_MODEL", car.getCarModel().getId());
+    params.addValue("CREATION_DATE", creationDate);
 
-        jdbcTemplate.update(Queries.INSERT_CAR, params, keyHolder);
+    jdbcTemplate.update(Queries.INSERT_CAR, params, keyHolder);
 
-        final Long id = keyHolder.getKey() != null ? keyHolder.getKey().longValue() : null;
-        log.debug("car insert successfully with id {}", id);
+    final Long id = keyHolder.getKey() != null ? keyHolder.getKey().longValue() : null;
+    log.debug("car insert successfully with id {}", id);
 
-        return car.toBuilder().creationDate(creationDate).id(id).build();
+    return car.toBuilder().creationDate(creationDate).id(id).build();
 
-    }
+  }
 }

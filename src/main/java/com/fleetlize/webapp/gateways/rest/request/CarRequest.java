@@ -11,12 +11,12 @@ import javax.validation.constraints.PositiveOrZero;
 @Setter
 public class CarRequest {
 
-    @NotEmpty
-    private String plate;
+  @NotEmpty
+  private String plate;
 
-    @PositiveOrZero
-    private Integer mileage;
+  @PositiveOrZero
+  private Integer mileage;
 
-    @NotNull
-    private Long carModel;
+  @NotNull
+  private Long carModel;
 }

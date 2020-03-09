@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class DeleteCarModel {
 
-    private CarModelRepository carModelRepository;
+  private CarModelRepository carModelRepository;
 
-    public void execute(final Long id) {
-        carModelRepository.delete(id);
-    }
+  public void execute(final Long id) {
+    carModelRepository.delete(id);
+  }
 
 }

@@ -35,88 +35,88 @@ import java.util.List;
 @Api(value = "Car Model")
 public class CarModelController {
 
-    private CreateCarModel createCarModel;
-    private GetCarModel getCarModel;
-    private DeleteCarModel deleteCarModel;
-    private UpdateCarModel updateCarModel;
-    private CarModelMapper carModelMapper;
+  private CreateCarModel createCarModel;
+  private GetCarModel getCarModel;
+  private DeleteCarModel deleteCarModel;
+  private UpdateCarModel updateCarModel;
+  private CarModelMapper carModelMapper;
 
-    @ApiOperation(value = "Creates a new Car Model")
-    @ApiResponses({
-            @ApiResponse(code = 201, message = "Car Model created successfully"),
-            @ApiResponse(code = 400, message = "API doesn't recognize sent parameters"),
-            @ApiResponse(code = 412, message = "Car Model already exists"),
-            @ApiResponse(code = 500, message = "Internal Server ErrorResponse"),
-    })
-    @PostMapping
-    public ResponseEntity<CarModelResponse> create(@RequestBody @Valid final CarModelRequest carModelRequest) {
+  @ApiOperation(value = "Creates a new Car Model")
+  @ApiResponses({
+      @ApiResponse(code = 201, message = "Car Model created successfully"),
+      @ApiResponse(code = 400, message = "API doesn't recognize sent parameters"),
+      @ApiResponse(code = 412, message = "Car Model already exists"),
+      @ApiResponse(code = 500, message = "Internal Server ErrorResponse"),
+  })
+  @PostMapping
+  public ResponseEntity<CarModelResponse> create(@RequestBody @Valid final CarModelRequest carModelRequest) {
 
-        final CarModel carModelToSave = carModelMapper.from(carModelRequest);
-        final CarModel carModelSaved = createCarModel.execute(carModelToSave);
-        final CarModelResponse carModelResponse = carModelMapper.from(carModelSaved);
-        return ResponseEntity.status(HttpStatus.CREATED).body(carModelResponse);
+    final CarModel carModelToSave = carModelMapper.from(carModelRequest);
+    final CarModel carModelSaved = createCarModel.execute(carModelToSave);
+    final CarModelResponse carModelResponse = carModelMapper.from(carModelSaved);
+    return ResponseEntity.status(HttpStatus.CREATED).body(carModelResponse);
 
-    }
+  }
 
-    @ApiOperation(value = "List Car Model")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "List successfully"),
-            @ApiResponse(code = 400, message = "API doesn't recognize sent parameters"),
-            @ApiResponse(code = 500, message = "Internal Server ErrorResponse"),
-    })
-    @GetMapping("/")
-    public ResponseEntity<List<CarModelResponse>> list() {
-        final List<CarModel> carModelList = getCarModel.execute();
+  @ApiOperation(value = "List Car Model")
+  @ApiResponses({
+      @ApiResponse(code = 200, message = "List successfully"),
+      @ApiResponse(code = 400, message = "API doesn't recognize sent parameters"),
+      @ApiResponse(code = 500, message = "Internal Server ErrorResponse"),
+  })
+  @GetMapping("/")
+  public ResponseEntity<List<CarModelResponse>> list() {
+    final List<CarModel> carModelList = getCarModel.execute();
 
-        final List<CarModelResponse> carModelResponse = carModelMapper.from(carModelList);
+    final List<CarModelResponse> carModelResponse = carModelMapper.from(carModelList);
 
-        return ResponseEntity.ok(carModelResponse);
-    }
+    return ResponseEntity.ok(carModelResponse);
+  }
 
-    @ApiOperation(value = "Get Car Model Detail")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "Car Model Found"),
-            @ApiResponse(code = 404, message = "Car Model Not Found")
-    })
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<CarModelResponse> getById(@PathVariable final Long id) {
-        final CarModel carModel = getCarModel.execute(id);
+  @ApiOperation(value = "Get Car Model Detail")
+  @ApiResponses({
+      @ApiResponse(code = 200, message = "Car Model Found"),
+      @ApiResponse(code = 404, message = "Car Model Not Found")
+  })
+  @GetMapping(value = "/{id}")
+  public ResponseEntity<CarModelResponse> getById(@PathVariable final Long id) {
+    final CarModel carModel = getCarModel.execute(id);
 
-        final CarModelResponse carModelResponse = carModelMapper.from(carModel);
+    final CarModelResponse carModelResponse = carModelMapper.from(carModel);
 
-        return ResponseEntity.ok(carModelResponse);
+    return ResponseEntity.ok(carModelResponse);
 
-    }
+  }
 
-    @ApiOperation(value = "Delete Car Model")
-    @ApiResponses({
-            @ApiResponse(code = 404, message = "Car Model Not Found"),
-            @ApiResponse(code = 204, message = "Car Model deleted successfully")
-    })
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable final Long id) {
-        deleteCarModel.execute(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
+  @ApiOperation(value = "Delete Car Model")
+  @ApiResponses({
+      @ApiResponse(code = 404, message = "Car Model Not Found"),
+      @ApiResponse(code = 204, message = "Car Model deleted successfully")
+  })
+  @DeleteMapping(value = "/{id}")
+  public ResponseEntity<Void> delete(@PathVariable final Long id) {
+    deleteCarModel.execute(id);
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+  }
 
 
-    @ApiOperation(value = "Update Car Model")
-    @ApiResponses({
-            @ApiResponse(code = 404, message = "Car Model Or Manufacturer Not Found"),
-            @ApiResponse(code = 200, message = "Car Model Update SuccessFully")
-    })
-    @PutMapping("/{id}")
-    public ResponseEntity<CarModelResponse> update(@PathVariable final Long id,
-                                                   @RequestBody final CarModelRequest carModelRequest) {
+  @ApiOperation(value = "Update Car Model")
+  @ApiResponses({
+      @ApiResponse(code = 404, message = "Car Model Or Manufacturer Not Found"),
+      @ApiResponse(code = 200, message = "Car Model Update SuccessFully")
+  })
+  @PutMapping("/{id}")
+  public ResponseEntity<CarModelResponse> update(@PathVariable final Long id,
+      @RequestBody final CarModelRequest carModelRequest) {
 
-        log.info("updating car model {}", id);
+    log.info("updating car model {}", id);
 
-        final CarModel carModel = carModelMapper.from(carModelRequest, id);
+    final CarModel carModel = carModelMapper.from(carModelRequest, id);
 
-        final CarModel updatedCarModel = updateCarModel.execute(carModel);
+    final CarModel updatedCarModel = updateCarModel.execute(carModel);
 
-        return ResponseEntity.ok(carModelMapper.from(updatedCarModel));
+    return ResponseEntity.ok(carModelMapper.from(updatedCarModel));
 
-    }
+  }
 
 }

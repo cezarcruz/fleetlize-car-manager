@@ -26,24 +26,24 @@ import javax.validation.Valid;
 @Api(value = "Car")
 public class CarController {
 
-    private CreateCar createCar;
-    private CarMapper carMapper;
+  private CreateCar createCar;
+  private CarMapper carMapper;
 
-    @ApiOperation(value = "Creates a new Car")
-    @ApiResponses({
-            @ApiResponse(code = 201, message = "Car created successfully"),
-            @ApiResponse(code = 400, message = "API doesn't recognize sent parameters"),
-            @ApiResponse(code = 412, message = "Car already exists"),
-            @ApiResponse(code = 500, message = "Internal Server Error"),
-    })
-    @PostMapping
-    public ResponseEntity<CarResponse> create(@RequestBody @Valid final CarRequest carRequest) {
+  @ApiOperation(value = "Creates a new Car")
+  @ApiResponses({
+      @ApiResponse(code = 201, message = "Car created successfully"),
+      @ApiResponse(code = 400, message = "API doesn't recognize sent parameters"),
+      @ApiResponse(code = 412, message = "Car already exists"),
+      @ApiResponse(code = 500, message = "Internal Server Error"),
+  })
+  @PostMapping
+  public ResponseEntity<CarResponse> create(@RequestBody @Valid final CarRequest carRequest) {
 
-        final var carToSave = carMapper.from(carRequest);
-        final var carSaved = createCar.execute(carToSave);
-        final var carResponse = carMapper.from(carSaved);
-        return ResponseEntity.status(HttpStatus.CREATED).body(carResponse);
+    final var carToSave = carMapper.from(carRequest);
+    final var carSaved = createCar.execute(carToSave);
+    final var carResponse = carMapper.from(carSaved);
+    return ResponseEntity.status(HttpStatus.CREATED).body(carResponse);
 
-    }
+  }
 
 }

@@ -8,8 +8,8 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface CarMapper {
-    @Mapping(source = "carModel", target = "carModel.id")
-    Car from(final CarRequest carRequest);
+  @Mapping(source = "carModel", target = "carModel.id")
+  Car from(final CarRequest carRequest);
 
-    CarResponse from(final Car car);
+  CarResponse from(final Car car);
 }

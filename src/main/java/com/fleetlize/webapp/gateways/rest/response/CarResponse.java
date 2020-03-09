@@ -11,8 +11,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class CarResponse {
-    private Long id;
-    private String plate;
-    private Integer mileage;
-    private CarModel carModel;
+  private Long id;
+  private String plate;
+  private Integer mileage;
+  private CarModel carModel;
 }

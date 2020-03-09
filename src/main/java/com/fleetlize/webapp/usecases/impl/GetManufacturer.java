@@ -16,23 +16,23 @@ import java.util.Optional;
 @AllArgsConstructor
 public class GetManufacturer {
 
-    private ManufacturerRepository manufacturerRepository;
+  private ManufacturerRepository manufacturerRepository;
 
-    public List<Manufacturer> execute() {
+  public List<Manufacturer> execute() {
 
-        log.info("executing get manufacturer");
+    log.info("executing get manufacturer");
 
-        return manufacturerRepository.list();
-    }
+    return manufacturerRepository.list();
+  }
 
 
-    public Manufacturer execute(final Long id) {
+  public Manufacturer execute(final Long id) {
 
-        Assert.notNull(id, "id can't be null");
+    Assert.notNull(id, "id can't be null");
 
-        log.info("executing get manufacturer");
+    log.info("executing get manufacturer");
 
-        final Optional<Manufacturer> manufacturer = manufacturerRepository.findById(id);
-        return manufacturer.orElseThrow(ManufacturerNotFoundException::new);
-    }
+    final Optional<Manufacturer> manufacturer = manufacturerRepository.findById(id);
+    return manufacturer.orElseThrow(ManufacturerNotFoundException::new);
+  }
 }

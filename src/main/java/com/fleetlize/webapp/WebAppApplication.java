@@ -9,8 +9,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @EnableConfigurationProperties({ JmsParams.class })
 public class WebAppApplication {
 
-	public static void main(final String...args) {
-		SpringApplication.run(WebAppApplication.class, args);
-	}
+  public static void main(final String...args) {
+    SpringApplication.run(WebAppApplication.class, args);
+  }
 
 }

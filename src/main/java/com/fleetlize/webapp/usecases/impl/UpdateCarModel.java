@@ -17,21 +17,21 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UpdateCarModel {
 
-    private CarModelRepository carModelRepository;
-    private ManufacturerRepository manufacturerRepository;
+  private CarModelRepository carModelRepository;
+  private ManufacturerRepository manufacturerRepository;
 
-    public CarModel execute(final CarModel carModel) {
+  public CarModel execute(final CarModel carModel) {
 
-        carModelRepository.findById(carModel.getId()).orElseThrow(CarModelNotFoundException::new);
+    carModelRepository.findById(carModel.getId()).orElseThrow(CarModelNotFoundException::new);
 
-        final Optional<Manufacturer> manufacturer =
-                manufacturerRepository.findById(carModel.getManufacturer().getId());
+    final Optional<Manufacturer> manufacturer =
+        manufacturerRepository.findById(carModel.getManufacturer().getId());
 
-        return manufacturer.map(m -> {
-            carModelRepository.update(carModel);
-            return carModel;
-        }).orElseThrow(ManufacturerNotFoundException::new);
+    return manufacturer.map(m -> {
+      carModelRepository.update(carModel);
+      return carModel;
+    }).orElseThrow(ManufacturerNotFoundException::new);
 
-    }
+  }
 
 }

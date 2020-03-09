@@ -21,51 +21,51 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ManufacturerRepository {
 
-    private NamedParameterJdbcTemplate jdbcTemplate;
+  private NamedParameterJdbcTemplate jdbcTemplate;
 
-    public Manufacturer create(final Manufacturer manufacturer) {
+  public Manufacturer create(final Manufacturer manufacturer) {
 
-        log.debug("inserting new manufacturer = {}", manufacturer);
+    log.debug("inserting new manufacturer = {}", manufacturer);
 
-        final KeyHolder keyHolder = new GeneratedKeyHolder();
-        final Timestamp creationDate = new Timestamp(new Date().getTime());
-        final MapSqlParameterSource params = new MapSqlParameterSource();
+    final KeyHolder keyHolder = new GeneratedKeyHolder();
+    final Timestamp creationDate = new Timestamp(new Date().getTime());
+    final MapSqlParameterSource params = new MapSqlParameterSource();
 
-        params.addValue("NAME", manufacturer.getName());
-        params.addValue("CREATION_DATE", creationDate);
+    params.addValue("NAME", manufacturer.getName());
+    params.addValue("CREATION_DATE", creationDate);
 
-        final String sql = "INSERT INTO MANUFACTURER (NAME, CREATION_DATE) VALUES (:NAME, :CREATION_DATE)";
+    final String sql = "INSERT INTO MANUFACTURER (NAME, CREATION_DATE) VALUES (:NAME, :CREATION_DATE)";
 
-        jdbcTemplate.update(sql, params, keyHolder);
+    jdbcTemplate.update(sql, params, keyHolder);
 
-        final Long id = keyHolder.getKey() != null ? keyHolder.getKey().longValue() : null;
+    final Long id = keyHolder.getKey() != null ? keyHolder.getKey().longValue() : null;
 
-        return manufacturer.toBuilder().creationDate(creationDate).id(id).build();
+    return manufacturer.toBuilder().creationDate(creationDate).id(id).build();
 
+  }
+
+  public List<Manufacturer> list() {
+
+    log.debug("getting all manufacturers");
+
+    final String sql = "SELECT MANUFACTURER_ID, NAME, CREATION_DATE, UPDATE_DATE FROM MANUFACTURER";
+    return jdbcTemplate.query(sql, ManufacturerConverter::convert);
+  }
+
+  public Optional<Manufacturer> findById(final Long id) {
+
+    log.debug("getting manufacturer by id = {}", id);
+
+    final String sql = "SELECT MANUFACTURER_ID, NAME, CREATION_DATE, UPDATE_DATE FROM MANUFACTURER WHERE MANUFACTURER_ID = :ID";
+
+    final MapSqlParameterSource params = new MapSqlParameterSource();
+    params.addValue("ID", id);
+
+    try {
+      return Optional.ofNullable(jdbcTemplate.queryForObject(sql, params, ManufacturerConverter::convert));
+    } catch (final EmptyResultDataAccessException ex) {
+      log.error("error getting manufacturer");
+      return Optional.empty();
     }
-
-    public List<Manufacturer> list() {
-
-        log.debug("getting all manufacturers");
-
-        final String sql = "SELECT MANUFACTURER_ID, NAME, CREATION_DATE, UPDATE_DATE FROM MANUFACTURER";
-        return jdbcTemplate.query(sql, ManufacturerConverter::convert);
-    }
-
-    public Optional<Manufacturer> findById(final Long id) {
-
-        log.debug("getting manufacturer by id = {}", id);
-
-        final String sql = "SELECT MANUFACTURER_ID, NAME, CREATION_DATE, UPDATE_DATE FROM MANUFACTURER WHERE MANUFACTURER_ID = :ID";
-
-        final MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("ID", id);
-
-        try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, params, ManufacturerConverter::convert));
-        } catch (final EmptyResultDataAccessException ex) {
-            log.error("error getting manufacturer");
-            return Optional.empty();
-        }
-    }
+  }
 }

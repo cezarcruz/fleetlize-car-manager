@@ -15,24 +15,24 @@ import java.util.List;
 @AllArgsConstructor
 public class GetCarModel {
 
-    private CarModelRepository carModelRepository;
+  private CarModelRepository carModelRepository;
 
-    public List<CarModel> execute() {
+  public List<CarModel> execute() {
 
-        log.info("executing get car model");
+    log.info("executing get car model");
 
-        return carModelRepository.list();
-    }
+    return carModelRepository.list();
+  }
 
-    public CarModel execute(final Long id) {
+  public CarModel execute(final Long id) {
 
-        Assert.notNull(id, "car model id can't be null");
+    Assert.notNull(id, "car model id can't be null");
 
-        log.info("executing get car model by id = {}", id);
+    log.info("executing get car model by id = {}", id);
 
-        final var carModel = carModelRepository.findById(id);
+    final var carModel = carModelRepository.findById(id);
 
-        return carModel.orElseThrow(CarModelNotFoundException::new);
-    }
+    return carModel.orElseThrow(CarModelNotFoundException::new);
+  }
 
 }

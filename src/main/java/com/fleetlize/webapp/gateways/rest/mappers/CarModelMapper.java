@@ -12,16 +12,16 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface CarModelMapper {
 
-    @Mapping(source = "manufacturerId", target = "manufacturer.id")
-    CarModel from(final CarModelRequest carModelRequest);
+  @Mapping(source = "manufacturerId", target = "manufacturer.id")
+  CarModel from(final CarModelRequest carModelRequest);
 
-    CarModelResponse from(final CarModel carModel);
+  CarModelResponse from(final CarModel carModel);
 
-    @Mapping(source = "carModel.manufacturerId", target = "manufacturer.id")
-    @Mapping(source = "id", target = "id")
-    CarModel from(final CarModelRequest carModel, final Long id);
+  @Mapping(source = "carModel.manufacturerId", target = "manufacturer.id")
+  @Mapping(source = "id", target = "id")
+  CarModel from(final CarModelRequest carModel, final Long id);
 
-    @IterableMapping(qualifiedByName = "from")
-    List<CarModelResponse> from(final List<CarModel> carModelList);
+  @IterableMapping(qualifiedByName = "from")
+  List<CarModelResponse> from(final List<CarModel> carModelList);
 
 }
