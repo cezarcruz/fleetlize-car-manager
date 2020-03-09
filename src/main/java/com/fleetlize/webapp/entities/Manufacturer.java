@@ -9,9 +9,9 @@ import java.util.Date;
 @Builder(toBuilder = true)
 public class Manufacturer {
 
-    private Long id;
-    private String name;
-    private Date creationDate;
-    private Date updateDate;
+  private Long id;
+  private String name;
+  private Date creationDate;
+  private Date updateDate;
 
 }

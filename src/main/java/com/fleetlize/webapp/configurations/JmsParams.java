@@ -8,8 +8,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Getter
 @Setter
 public class JmsParams {
-
-    private String carCreation;
-
-
+  private String carCreation;
 }
