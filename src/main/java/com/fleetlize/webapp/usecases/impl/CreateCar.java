@@ -5,24 +5,18 @@ import com.fleetlize.webapp.gateways.database.repositories.CarModelRepository;
 import com.fleetlize.webapp.gateways.database.repositories.CarRepository;
 import com.fleetlize.webapp.gateways.jms.CarCreationNotifier;
 import com.fleetlize.webapp.usecases.BasicCreate;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class CreateCar implements BasicCreate<Car> {
 
-  private CarRepository carRepository;
-  private CarModelRepository carModelRepository;
-  private CarCreationNotifier carCreationNotifier;
-
-  public CreateCar(final CarRepository carRepository,
-      final CarModelRepository carModelRepository,
-      final CarCreationNotifier carCreationNotifier) {
-    this.carRepository = carRepository;
-    this.carModelRepository = carModelRepository;
-    this.carCreationNotifier = carCreationNotifier;
-  }
+  private final CarRepository carRepository;
+  private final CarModelRepository carModelRepository;
+  private final CarCreationNotifier carCreationNotifier;
 
   public Car execute(final Car car) {
     log.info("executing create car");
