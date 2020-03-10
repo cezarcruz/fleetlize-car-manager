@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Builder
+@Builder(toBuilder = true)
 public class CategoryResponse {
   private Long id;
   private String name;

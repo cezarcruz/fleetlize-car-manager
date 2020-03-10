@@ -8,5 +8,5 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface CategoryMapper {
   Category from(final CategoryRequest categoryRequest);
-  CategoryResponse from(final Category categoryCreated);
+  CategoryResponse from(final Category category);
 }
