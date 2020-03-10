@@ -2,7 +2,7 @@ package com.fleetlize.webapp.gateways.database.repositories;
 
 import com.fleetlize.webapp.entities.Category;
 import com.fleetlize.webapp.gateways.database.Queries;
-import com.fleetlize.webapp.gateways.database.repositories.converters.CategoryModelConverter;
+import com.fleetlize.webapp.gateways.database.repositories.converters.CategoryConverter;
 import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +41,7 @@ public class CategoryRepository {
     final MapSqlParameterSource params = new MapSqlParameterSource();
     params.addValue("ID", id);
 
-    return jdbcTemplate.queryForObject(Queries.FIND_CATEGORY_BY_ID, params, CategoryModelConverter::from);
+    return jdbcTemplate.queryForObject(Queries.FIND_CATEGORY_BY_ID, params, CategoryConverter::from);
 
   }
 }

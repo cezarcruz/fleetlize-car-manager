@@ -6,8 +6,14 @@ import com.fleetlize.webapp.gateways.rest.response.CarResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper(
+    componentModel = "spring",
+    uses = {
+        CarModelMapper.class,
+        CategoryMapper.class
+})
 public interface CarMapper {
+
   @Mapping(source = "carModel", target = "carModel.id")
   Car from(final CarRequest carRequest);
 

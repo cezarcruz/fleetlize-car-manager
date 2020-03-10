@@ -5,13 +5,13 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CategoryModelConverter {
+public class CategoryConverter {
 
   public static Category from(final ResultSet resultSet, final int row) throws SQLException {
     final int dailyPrice = resultSet.getInt("DAILY_PRICE");
     return Category.builder()
         .id(resultSet.getLong("CATEGORY_ID"))
-        .name(resultSet.getString("NAME"))
+        .name(resultSet.getString("NAME"))//fixme: name aready used
         .dailyPrice(BigDecimal.valueOf((double) dailyPrice / 100)) //FIXME - float problem ;)
         .build();
   }

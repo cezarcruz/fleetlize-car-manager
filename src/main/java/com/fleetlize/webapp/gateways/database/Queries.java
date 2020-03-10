@@ -20,4 +20,12 @@ public class Queries {
   public static final String INSERT_CATEGORY = "INSERT INTO CATEGORY (NAME, DAILY_PRICE) VALUES (:NAME, :DAILY_PRICE)";
 
   public static final String FIND_CATEGORY_BY_ID = "SELECT CATEGORY_ID, NAME, DAILY_PRICE FROM CATEGORY WHERE CATEGORY_ID = :ID";
+
+  public static final String FIND_CAR_BY_ID = "SELECT c.CAR_ID, c.PLATE, c.MILEAGE, model.ID AS MODEL_ID, model.MODEL_NAME, model.MODEL_YEAR, model.CREATION_DATE, model.UPDATE_DATE, manufacturer.NAME, manufacturer.MANUFACTURER_ID, "
+      + "manufacturer.CREATION_DATE AS MA_CREATION_DATE, manufacturer.UPDATE_DATE AS MA_UPDATE_DATE, category.NAME, category.DAILY_PRICE, category.CATEGORY_ID "
+      + "FROM CAR c "
+      + "LEFT JOIN CAR_MODEL model on model.ID = c.CAR_MODEL_ID "
+      + "LEFT JOIN MANUFACTURER manufacturer on manufacturer.MANUFACTURER_ID = model.MANUFACTURER_ID "
+      + "LEFT JOIN CATEGORY category on category.CATEGORY_ID = model.CATEGORY_ID "
+      + "WHERE c.CAR_ID = :ID";
 }
