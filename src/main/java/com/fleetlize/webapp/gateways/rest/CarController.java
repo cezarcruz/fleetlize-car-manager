@@ -12,6 +12,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,6 +46,17 @@ public class CarController {
     final var carResponse = carMapper.from(carSaved);
     return ResponseEntity.status(HttpStatus.CREATED).body(carResponse);
 
+  }
+
+  @ApiOperation(value = "Associate car to category")
+  @ApiResponses({
+      @ApiResponse(code = 200, message = "Category associated successfully"),
+      @ApiResponse(code = 400, message = "Car or category doesn't exists"),
+      @ApiResponse(code = 500, message = "Internal Server Error"),
+  })
+  @PatchMapping("/{carId}/category/{categoryId}")
+  public ResponseEntity<Void> associateCategory(@PathVariable final Long carId, @PathVariable final Long categoryId) {
+    return ResponseEntity.ok().build();
   }
 
 }
