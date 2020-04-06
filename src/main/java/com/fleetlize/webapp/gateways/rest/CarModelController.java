@@ -1,32 +1,35 @@
 package com.fleetlize.webapp.gateways.rest;
 
 import com.fleetlize.webapp.entities.CarModel;
+import com.fleetlize.webapp.entities.Category;
 import com.fleetlize.webapp.gateways.rest.mappers.CarModelMapper;
 import com.fleetlize.webapp.gateways.rest.request.CarModelRequest;
 import com.fleetlize.webapp.gateways.rest.response.CarModelResponse;
 import com.fleetlize.webapp.usecases.impl.CreateCarModel;
 import com.fleetlize.webapp.usecases.impl.DeleteCarModel;
 import com.fleetlize.webapp.usecases.impl.GetCarModel;
+import com.fleetlize.webapp.usecases.impl.GetCategory;
 import com.fleetlize.webapp.usecases.impl.UpdateCarModel;
+import com.fleetlize.webapp.usecases.impl.UpdateModelCategory;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import java.util.List;
+import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.validation.Valid;
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -40,6 +43,8 @@ public class CarModelController {
   private DeleteCarModel deleteCarModel;
   private UpdateCarModel updateCarModel;
   private CarModelMapper carModelMapper;
+  private GetCategory getCategory;
+  private UpdateModelCategory modelCategory;
 
   @ApiOperation(value = "Creates a new Car Model")
   @ApiResponses({
@@ -118,5 +123,29 @@ public class CarModelController {
     return ResponseEntity.ok(carModelMapper.from(updatedCarModel));
 
   }
+
+  @ApiOperation(value = "Associate model to category")
+  @ApiResponses({
+      @ApiResponse(code = 200, message = "Category associated successfully"),
+      @ApiResponse(code = 400, message = "Model or category doesn't exists"),
+      @ApiResponse(code = 500, message = "Internal Server Error"),
+  })
+  @PatchMapping("/{modelId}/category/{categoryId}")
+  public ResponseEntity<CarModel> associateCategory(@PathVariable final Long modelId, @PathVariable final Long categoryId) {
+
+    final CarModel model = getCarModel.execute(modelId);
+    final Category category = getCategory.execute(categoryId);
+
+    final CarModel modelToUpdate
+        = model.toBuilder()
+        .category(category)
+        .build();
+
+
+    final CarModel updatedCar = modelCategory.execute(modelToUpdate);
+
+    return ResponseEntity.ok(updatedCar);
+  }
+
 
 }

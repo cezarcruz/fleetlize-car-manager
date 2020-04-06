@@ -3,7 +3,11 @@ package com.fleetlize.webapp.gateways.database.repositories;
 import com.fleetlize.webapp.entities.CarModel;
 import com.fleetlize.webapp.gateways.database.Queries;
 import com.fleetlize.webapp.gateways.database.repositories.converters.CarModelConverter;
-import lombok.AllArgsConstructor;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -11,17 +15,12 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-
 @Slf4j
 @Repository
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CarModelRepository {
 
-  private NamedParameterJdbcTemplate jdbcTemplate;
+  private final NamedParameterJdbcTemplate jdbcTemplate;
 
   public CarModel insert(final CarModel carModel) {
 
@@ -85,5 +84,18 @@ public class CarModelRepository {
 
     jdbcTemplate.update(Queries.UPDATE_CAR_MODEL, params);
 
+  }
+
+  public CarModel updateCategory(final CarModel carModel) {
+    log.debug("updating model {} to category {}", carModel.getId(), carModel.getCategory().getId());
+
+    final MapSqlParameterSource params = new MapSqlParameterSource();
+
+    params.addValue("CAR_MODEL_ID", carModel.getId());
+    params.addValue("CATEGORY_ID", carModel.getCategory().getId());
+
+    jdbcTemplate.update(Queries.UPDATE_CAR_MODEL_CATEGORY, params);
+
+    return carModel.toBuilder().build();
   }
 }

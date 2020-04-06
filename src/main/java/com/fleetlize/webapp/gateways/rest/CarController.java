@@ -4,8 +4,8 @@ import com.fleetlize.webapp.entities.Car;
 import com.fleetlize.webapp.gateways.rest.mappers.CarMapper;
 import com.fleetlize.webapp.gateways.rest.request.CarRequest;
 import com.fleetlize.webapp.gateways.rest.response.CarResponse;
-import com.fleetlize.webapp.usecases.impl.GetCar;
 import com.fleetlize.webapp.usecases.impl.CreateCar;
+import com.fleetlize.webapp.usecases.impl.GetCar;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -16,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,7 +52,7 @@ public class CarController {
 
   @ApiOperation(value = "Get Car by Id")
   @ApiResponses({
-      @ApiResponse(code = 200, message = "Car "),
+      @ApiResponse(code = 200, message = "Car"),
       @ApiResponse(code = 404, message = "Car not found"),
       @ApiResponse(code = 500, message = "Internal Server Error"),
   })
@@ -62,17 +61,6 @@ public class CarController {
     final Car car = getCar.execute(id);
     final CarResponse from = carMapper.from(car);
     return ResponseEntity.ok(from);
-  }
-
-  @ApiOperation(value = "Associate car to category")
-  @ApiResponses({
-      @ApiResponse(code = 200, message = "Category associated successfully"),
-      @ApiResponse(code = 400, message = "Car or category doesn't exists"),
-      @ApiResponse(code = 500, message = "Internal Server Error"),
-  })
-  @PatchMapping("/{carId}/category/{categoryId}")
-  public ResponseEntity<Void> associateCategory(@PathVariable final Long carId, @PathVariable final Long categoryId) {
-    return ResponseEntity.ok().build();
   }
 
 }
