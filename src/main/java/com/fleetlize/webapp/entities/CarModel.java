@@ -11,6 +11,7 @@ public class CarModel {
 
   private Long id;
   private Manufacturer manufacturer;
+  private Category category;
   private String model;
   private Integer modelYear;
   private Date creationDate;

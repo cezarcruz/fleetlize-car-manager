@@ -28,4 +28,6 @@ public class Queries {
       + "LEFT JOIN MANUFACTURER manufacturer on manufacturer.MANUFACTURER_ID = model.MANUFACTURER_ID "
       + "LEFT JOIN CATEGORY category on category.CATEGORY_ID = model.CATEGORY_ID "
       + "WHERE c.CAR_ID = :ID";
+
+  public static final String UPDATE_CAR_MODEL_CATEGORY = "UPDATE CAR_MODEL SET CATEGORY_ID = :CATEGORY_ID WHERE ID = :CAR_MODEL_ID";
 }

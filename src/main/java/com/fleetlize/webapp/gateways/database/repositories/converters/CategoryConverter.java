@@ -11,7 +11,7 @@ public class CategoryConverter {
     final int dailyPrice = resultSet.getInt("DAILY_PRICE");
     return Category.builder()
         .id(resultSet.getLong("CATEGORY_ID"))
-        .name(resultSet.getString("NAME"))//fixme: name aready used
+        .name(resultSet.getString("NAME"))//fixme: name already used
         .dailyPrice(BigDecimal.valueOf((double) dailyPrice / 100)) //FIXME - float problem ;)
         .build();
   }
