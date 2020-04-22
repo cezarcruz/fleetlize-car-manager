@@ -5,6 +5,7 @@ import com.fleetlize.webapp.gateways.database.Queries;
 import com.fleetlize.webapp.gateways.database.repositories.converters.CarConverter;
 import java.sql.Timestamp;
 import java.util.Date;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -14,13 +15,10 @@ import org.springframework.stereotype.Repository;
 
 @Slf4j
 @Repository
+@RequiredArgsConstructor
 public class CarRepository {
 
-  private NamedParameterJdbcTemplate jdbcTemplate;
-
-  public CarRepository(final NamedParameterJdbcTemplate jdbcTemplate) {
-    this.jdbcTemplate = jdbcTemplate;
-  }
+  private final NamedParameterJdbcTemplate jdbcTemplate;
 
   public Car insert(final Car car) {
 

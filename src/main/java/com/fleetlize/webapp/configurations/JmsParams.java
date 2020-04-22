@@ -4,9 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "fleetlize.jms.topic")
 @Getter
 @Setter
+@ConfigurationProperties(prefix = "fleetlize.jms.topic")
 public class JmsParams {
   private String carCreation;
 }
