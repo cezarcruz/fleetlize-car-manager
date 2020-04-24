@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -46,18 +47,25 @@ public class CarModelRepository {
 
   public List<CarModel> list() {
     log.debug("listing all car model");
-    return jdbcTemplate.query(Queries.FIND_CAR_MODEL, new MapSqlParameterSource(), CarModelConverter::from);
+    return jdbcTemplate.query(Queries.FIND_ALL_CAR_MODEL, new MapSqlParameterSource(), CarModelConverter::from);
   }
 
   public Optional<CarModel> findById(final Long id) {
 
-    log.debug("finding car model by id = {}", id);
+    log.debug("searching car model by id = {}", id);
 
     final MapSqlParameterSource params = new MapSqlParameterSource();
     params.addValue("ID", id);
 
-    //TODO: may change this ofNullable
-    return Optional.ofNullable(jdbcTemplate.queryForObject(Queries.FIND_CAR_MODEL_BY_ID, params, CarModelConverter::from));
+    try {
+      return Optional.ofNullable(jdbcTemplate
+          .queryForObject(Queries.FIND_CAR_MODEL_BY_ID, params, CarModelConverter::from));
+    } catch (final DataAccessException dataAccessException) {
+      log.error("car not found", dataAccessException);
+    }
+
+    return Optional.empty();
+
   }
 
   public void delete(final Long id) {

@@ -2,6 +2,7 @@ package com.fleetlize.webapp.usecases.impl;
 
 import com.fleetlize.webapp.entities.Car;
 import com.fleetlize.webapp.gateways.database.repositories.CarRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ public class GetCar {
 
   private final CarRepository carRepository;
 
-  public Car execute(final Long id) {
-    return carRepository.findById(id);
+  public Optional<Car> execute(final Long id) {
+    return Optional.ofNullable(carRepository.findById(id));
   }
 }

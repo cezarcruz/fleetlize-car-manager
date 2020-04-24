@@ -6,6 +6,7 @@ import com.fleetlize.webapp.configurations.JmsParams;
 import com.fleetlize.webapp.entities.Car;
 import com.fleetlize.webapp.gateways.jms.mapper.CarCreationMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +14,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class CarCreationNotifier {
 
-  private JmsTemplate jmsTemplateTopic;
-  private JmsParams jmsParams;
-  private CarCreationMapper carCreationMapper;
-  private ObjectMapper objectMapper;
+  private final JmsTemplate jmsTemplateTopic;
+  private final JmsParams jmsParams;
+  private final CarCreationMapper carCreationMapper;
+  private final ObjectMapper objectMapper;
+
+  @Value("${fleetlize.jms.enabled}")
+  private Boolean notificationEnabled;
 
   public CarCreationNotifier(final JmsTemplate jmsTemplateTopic,
       final JmsParams jmsParams,
@@ -29,6 +33,10 @@ public class CarCreationNotifier {
   }
 
   public void notify(final Car car) {
+
+    if (!notificationEnabled) {
+      return;
+    }
 
     log.info("notify car creation stream");
     log.debug("notify car creation in topic {}", jmsParams.getCarCreation());

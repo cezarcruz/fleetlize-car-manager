@@ -14,5 +14,4 @@ public class CarResponse {
   private String plate;
   private Integer mileage;
   private CarModelResponse carModel;
-  private CategoryResponse category;
 }

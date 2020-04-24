@@ -10,8 +10,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import java.util.Optional;
 import javax.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,13 +26,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping("/car")
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Api(value = "Car")
 public class CarController {
 
-  private CreateCar createCar;
-  private CarMapper carMapper;
-  private GetCar getCar;
+  private final CreateCar createCar;
+  private final CarMapper carMapper;
+  private final GetCar getCar;
 
   @ApiOperation(value = "Creates a new Car")
   @ApiResponses({
@@ -58,9 +59,9 @@ public class CarController {
   })
   @GetMapping("/{id}")
   public ResponseEntity<CarResponse> findBy(@PathVariable final Long id) {
-    final Car car = getCar.execute(id);
-    final CarResponse from = carMapper.from(car);
-    return ResponseEntity.ok(from);
+    final Optional<Car> car = getCar.execute(id);
+    return car.map(c  -> ResponseEntity.ok(carMapper.from(c)))
+        .orElse(ResponseEntity.notFound().build());
   }
 
 }

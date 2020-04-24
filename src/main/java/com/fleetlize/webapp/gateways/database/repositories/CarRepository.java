@@ -5,6 +5,7 @@ import com.fleetlize.webapp.gateways.database.Queries;
 import com.fleetlize.webapp.gateways.database.repositories.converters.CarConverter;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Repository;
 public class CarRepository {
 
   private final NamedParameterJdbcTemplate jdbcTemplate;
+  private final CarConverter carConverter;
 
   public Car insert(final Car car) {
 
@@ -46,8 +48,14 @@ public class CarRepository {
     final MapSqlParameterSource params = new MapSqlParameterSource();
     params.addValue("ID", id);
 
-    return jdbcTemplate.queryForObject(Queries.FIND_CAR_BY_ID, params, CarConverter::from);
+    final List<Car> cars = jdbcTemplate
+        .query(Queries.FIND_CAR_BY_ID, params, (resultSet, i) -> carConverter.mapRow(resultSet, i));
 
+    if (cars.isEmpty()) {
+      return null;
+    }
+
+    return cars.get(0);
   }
 
 }

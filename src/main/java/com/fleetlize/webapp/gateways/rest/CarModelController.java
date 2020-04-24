@@ -16,8 +16,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import java.util.List;
+import java.util.Optional;
 import javax.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,17 +35,17 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping("/car-model")
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Api(value = "Car Model")
 public class CarModelController {
 
-  private CreateCarModel createCarModel;
-  private GetCarModel getCarModel;
-  private DeleteCarModel deleteCarModel;
-  private UpdateCarModel updateCarModel;
-  private CarModelMapper carModelMapper;
-  private GetCategory getCategory;
-  private UpdateModelCategory modelCategory;
+  private final CreateCarModel createCarModel;
+  private final GetCarModel getCarModel;
+  private final DeleteCarModel deleteCarModel;
+  private final UpdateCarModel updateCarModel;
+  private final CarModelMapper carModelMapper;
+  private final GetCategory getCategory;
+  private final UpdateModelCategory modelCategory;
 
   @ApiOperation(value = "Creates a new Car Model")
   @ApiResponses({
@@ -85,11 +86,9 @@ public class CarModelController {
   })
   @GetMapping(value = "/{id}")
   public ResponseEntity<CarModelResponse> getById(@PathVariable final Long id) {
-    final CarModel carModel = getCarModel.execute(id);
-
-    final CarModelResponse carModelResponse = carModelMapper.from(carModel);
-
-    return ResponseEntity.ok(carModelResponse);
+    final Optional<CarModel> carModel = getCarModel.execute(id);
+    return carModel.map(c -> ResponseEntity.ok(carModelMapper.from(c)))
+        .orElse(ResponseEntity.notFound().build());
 
   }
 
@@ -131,20 +130,21 @@ public class CarModelController {
       @ApiResponse(code = 500, message = "Internal Server Error"),
   })
   @PatchMapping("/{modelId}/category/{categoryId}")
-  public ResponseEntity<CarModel> associateCategory(@PathVariable final Long modelId, @PathVariable final Long categoryId) {
+  public ResponseEntity<CarModelResponse> associateCategory(@PathVariable final Long modelId, @PathVariable final Long categoryId) {
 
-    final CarModel model = getCarModel.execute(modelId);
+    final Optional<CarModel> model = getCarModel.execute(modelId);
     final Category category = getCategory.execute(categoryId);
 
-    final CarModel modelToUpdate
-        = model.toBuilder()
-        .category(category)
-        .build();
+    return model.map(m -> {
 
+      final CarModel modelToUpdate
+          = m.toBuilder()
+          .category(category)
+          .build();
+      final CarModel updatedCar = modelCategory.execute(modelToUpdate);
+      return ResponseEntity.ok(carModelMapper.from(updatedCar));
 
-    final CarModel updatedCar = modelCategory.execute(modelToUpdate);
-
-    return ResponseEntity.ok(updatedCar);
+    }).orElse(ResponseEntity.notFound().build());
   }
 
 
