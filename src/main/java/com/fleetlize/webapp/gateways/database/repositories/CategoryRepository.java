@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 public class CategoryRepository {
 
   private final NamedParameterJdbcTemplate jdbcTemplate;
+  private final CategoryConverter categoryConverter;
 
   public Category insert(final Category category) {
 
@@ -41,7 +42,7 @@ public class CategoryRepository {
     final MapSqlParameterSource params = new MapSqlParameterSource();
     params.addValue("ID", id);
 
-    return jdbcTemplate.queryForObject(Queries.FIND_CATEGORY_BY_ID, params, CategoryConverter::from);
+    return jdbcTemplate.queryForObject(Queries.FIND_CATEGORY_BY_ID, params, categoryConverter::mapRow);
 
   }
 }

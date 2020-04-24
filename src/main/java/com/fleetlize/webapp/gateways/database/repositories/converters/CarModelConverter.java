@@ -2,16 +2,20 @@ package com.fleetlize.webapp.gateways.database.repositories.converters;
 
 import com.fleetlize.webapp.entities.CarModel;
 import com.fleetlize.webapp.entities.Manufacturer;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class CarModelConverter {
+@Component
+@AllArgsConstructor
+public class CarModelConverter implements RowMapper<CarModel> {
 
-  public static CarModel from(final ResultSet resultSet, final int i) throws SQLException {
+  private final CategoryConverter categoryConverter;
+
+  @Override
+  public CarModel mapRow(final ResultSet resultSet, final int rowNum) throws SQLException {
 
     final Manufacturer manufacturer = Manufacturer.builder()
         .id(resultSet.getLong("MANUFACTURER_ID"))
@@ -23,9 +27,8 @@ public class CarModelConverter {
         .model(resultSet.getString("MODEL_NAME"))
         .modelYear(resultSet.getInt("MODEL_YEAR"))
         .manufacturer(manufacturer)
-        .category(CategoryConverter.from(resultSet, i))
+        .category(categoryConverter.mapRow(resultSet, rowNum))
         .build();
 
   }
-
 }

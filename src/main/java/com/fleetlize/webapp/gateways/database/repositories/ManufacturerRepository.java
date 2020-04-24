@@ -2,7 +2,11 @@ package com.fleetlize.webapp.gateways.database.repositories;
 
 import com.fleetlize.webapp.entities.Manufacturer;
 import com.fleetlize.webapp.gateways.database.repositories.converters.ManufacturerConverter;
-import lombok.AllArgsConstructor;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -11,17 +15,13 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-
 @Slf4j
 @Repository
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ManufacturerRepository {
 
-  private NamedParameterJdbcTemplate jdbcTemplate;
+  private final NamedParameterJdbcTemplate jdbcTemplate;
+  private final ManufacturerConverter manufacturerConverter;
 
   public Manufacturer create(final Manufacturer manufacturer) {
 
@@ -49,7 +49,7 @@ public class ManufacturerRepository {
     log.debug("getting all manufacturers");
 
     final String sql = "SELECT MANUFACTURER_ID, NAME, CREATION_DATE, UPDATE_DATE FROM MANUFACTURER";
-    return jdbcTemplate.query(sql, ManufacturerConverter::convert);
+    return jdbcTemplate.query(sql, manufacturerConverter::mapRow);
   }
 
   public Optional<Manufacturer> findById(final Long id) {
@@ -62,7 +62,7 @@ public class ManufacturerRepository {
     params.addValue("ID", id);
 
     try {
-      return Optional.ofNullable(jdbcTemplate.queryForObject(sql, params, ManufacturerConverter::convert));
+      return Optional.ofNullable(jdbcTemplate.queryForObject(sql, params, manufacturerConverter::mapRow));
     } catch (final EmptyResultDataAccessException ex) {
       log.error("error getting manufacturer");
       return Optional.empty();

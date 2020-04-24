@@ -4,18 +4,19 @@ import com.fleetlize.webapp.entities.Manufacturer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
-public class ManufacturerConverter {
+@Component
+public class ManufacturerConverter implements RowMapper<Manufacturer> {
 
-  public static Manufacturer convert(final ResultSet resultSet, final int row) throws SQLException {
-
+  @Override
+  public Manufacturer mapRow(final ResultSet resultSet, final int rowNum) throws SQLException {
     return Manufacturer.builder()
         .id(resultSet.getLong("MANUFACTURER_ID"))
         .name(resultSet.getString("NAME"))
         .creationDate(resultSet.getTimestamp("CREATION_DATE"))
         .updateDate(resultSet.getTimestamp("UPDATE_DATE"))
         .build();
-
   }
-
 }

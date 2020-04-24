@@ -4,10 +4,14 @@ import com.fleetlize.webapp.entities.Category;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
-public class CategoryConverter {
+@Component
+public class CategoryConverter implements RowMapper<Category> {
 
-  public static Category from(final ResultSet resultSet, final int row) throws SQLException {
+  @Override
+  public Category mapRow(final ResultSet resultSet, final int rowNum) throws SQLException {
     final int dailyPrice = resultSet.getInt("DAILY_PRICE");
     return Category.builder()
         .id(resultSet.getLong("CATEGORY_ID"))

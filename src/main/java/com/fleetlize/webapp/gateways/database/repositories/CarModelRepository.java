@@ -22,6 +22,7 @@ import org.springframework.stereotype.Repository;
 public class CarModelRepository {
 
   private final NamedParameterJdbcTemplate jdbcTemplate;
+  private final CarModelConverter carModelConverter;
 
   public CarModel insert(final CarModel carModel) {
 
@@ -47,7 +48,7 @@ public class CarModelRepository {
 
   public List<CarModel> list() {
     log.debug("listing all car model");
-    return jdbcTemplate.query(Queries.FIND_ALL_CAR_MODEL, new MapSqlParameterSource(), CarModelConverter::from);
+    return jdbcTemplate.query(Queries.FIND_ALL_CAR_MODEL, carModelConverter::mapRow);
   }
 
   public Optional<CarModel> findById(final Long id) {
@@ -59,7 +60,7 @@ public class CarModelRepository {
 
     try {
       return Optional.ofNullable(jdbcTemplate
-          .queryForObject(Queries.FIND_CAR_MODEL_BY_ID, params, CarModelConverter::from));
+          .queryForObject(Queries.FIND_CAR_MODEL_BY_ID, params, carModelConverter::mapRow));
     } catch (final DataAccessException dataAccessException) {
       log.error("car not found", dataAccessException);
     }
