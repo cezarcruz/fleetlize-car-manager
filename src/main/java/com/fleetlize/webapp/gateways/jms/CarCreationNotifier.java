@@ -20,7 +20,7 @@ public class CarCreationNotifier {
   private final ObjectMapper objectMapper;
 
   @Value("${fleetlize.jms.enabled}")
-  private Boolean notificationEnabled;
+  private boolean notificationEnabled;
 
   public CarCreationNotifier(final JmsTemplate jmsTemplateTopic,
       final JmsParams jmsParams,

@@ -116,10 +116,11 @@ public class CarModelController {
     log.info("updating car model {}", id);
 
     final CarModel carModel = carModelMapper.from(carModelRequest, id);
+    final Optional<CarModel> updatedCarModel = updateCarModel.execute(carModel);
 
-    final CarModel updatedCarModel = updateCarModel.execute(carModel);
-
-    return ResponseEntity.ok(carModelMapper.from(updatedCarModel));
+    return updatedCarModel
+        .map(cm -> ResponseEntity.ok(carModelMapper.from(cm)))
+        .orElse(ResponseEntity.status(HttpStatus.NOT_MODIFIED).build());//temporary
 
   }
 
