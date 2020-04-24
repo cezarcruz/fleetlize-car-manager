@@ -12,7 +12,6 @@ public class Car {
   private String plate;
   private Integer mileage;
   private CarModel carModel;
-  private Category category;
   private Date creationDate;
   private Date updateDate;
 }

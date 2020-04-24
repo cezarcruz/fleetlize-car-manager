@@ -14,7 +14,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     password: ${DB_PASS:root}
-    url: ${DB_URL:jdbc:mysql://localhost:3306/fleetlize}
+    url: ${DB_URL:jdbc:mysql://localhost:3306/car_manager}
     username: ${DB_USER:root}
   sleuth:
     sampler:
@@ -22,5 +22,6 @@ spring:
 
 fleetlize:
   jms:
+    enabled: false
     topic:
       car-creation: car-creation

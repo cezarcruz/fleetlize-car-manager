@@ -12,7 +12,8 @@ import java.util.List;
 @Mapper(
     componentModel = "spring",
     uses = {
-        ManufacturerMapper.class
+        ManufacturerMapper.class,
+        CategoryMapper.class
     }
 )
 public interface CarModelMapper {
