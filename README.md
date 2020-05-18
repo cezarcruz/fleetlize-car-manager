@@ -9,3 +9,12 @@ CONSUL_ENABLED={true|false}
 ```
 
 Consul can be optional.
+
+Liquibase (alpha)
+
+Change Database appointment in cb.changelog-master.yaml, then, try this commands:
+
+````
+mvn liquibase:status
+mvn liquibase:update
+````
