@@ -49,7 +49,7 @@ public class CarRepository {
     params.addValue("ID", id);
 
     final List<Car> cars = jdbcTemplate
-        .query(Queries.FIND_CAR_BY_ID, params, carConverter::mapRow);
+        .query(Queries.FIND_CAR_BY_ID, params, carConverter);
 
     if (cars.isEmpty()) {
       return null;
@@ -58,4 +58,8 @@ public class CarRepository {
     return cars.get(0);
   }
 
+  public List<Car> findAll() {
+    log.debug("finding all cars");
+    return jdbcTemplate.query(Queries.FIND_ALL_CARS, carConverter);
+  }
 }

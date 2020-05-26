@@ -10,23 +10,22 @@ import javax.jms.ConnectionFactory;
 @Configuration
 public class JmsConfig {
 
-    @Bean
-    public ConnectionFactory receiverActiveMQConnectionFactory() {
-        ActiveMQConnectionFactory activeMQConnectionFactory =
-            new ActiveMQConnectionFactory();
-        activeMQConnectionFactory.setBrokerURL("tcp://localhost:61616");
+  @Bean
+  public ConnectionFactory receiverActiveMQConnectionFactory() {
+    final ActiveMQConnectionFactory activeMQConnectionFactory =
+        new ActiveMQConnectionFactory();
+    activeMQConnectionFactory.setBrokerURL("vm://embedded-broker?broker.persistent=false");
+    return activeMQConnectionFactory;
+  }
 
-        return activeMQConnectionFactory;
-    }
+  @Bean
+  public DefaultJmsListenerContainerFactory jmsListenerContainerFactory() {
+    final DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+    factory.setConnectionFactory(receiverActiveMQConnectionFactory());
+    factory.setPubSubDomain(true);
 
-    @Bean
-    public DefaultJmsListenerContainerFactory jmsListenerContainerFactory() {
-        final DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-        factory.setConnectionFactory(receiverActiveMQConnectionFactory());
-        factory.setPubSubDomain(true);
-
-        return factory;
-    }
+    return factory;
+  }
 
 
 }

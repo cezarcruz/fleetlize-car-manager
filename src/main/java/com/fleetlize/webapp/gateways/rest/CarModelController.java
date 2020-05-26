@@ -124,29 +124,4 @@ public class CarModelController {
 
   }
 
-  @ApiOperation(value = "Associate model to category")
-  @ApiResponses({
-      @ApiResponse(code = 200, message = "Category associated successfully"),
-      @ApiResponse(code = 400, message = "Model or category doesn't exists"),
-      @ApiResponse(code = 500, message = "Internal Server Error"),
-  })
-  @PatchMapping("/{modelId}/category/{categoryId}")
-  public ResponseEntity<CarModelResponse> associateCategory(@PathVariable final Long modelId, @PathVariable final Long categoryId) {
-
-    final Optional<CarModel> model = getCarModel.execute(modelId);
-    final Category category = getCategory.execute(categoryId);
-
-    return model.map(m -> {
-
-      final CarModel modelToUpdate
-          = m.toBuilder()
-          .category(category)
-          .build();
-      final CarModel updatedCar = modelCategory.execute(modelToUpdate);
-      return ResponseEntity.ok(carModelMapper.from(updatedCar));
-
-    }).orElse(ResponseEntity.notFound().build());
-  }
-
-
 }

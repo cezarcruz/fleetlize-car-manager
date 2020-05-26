@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -63,5 +64,19 @@ public class CarController {
     return car.map(c  -> ResponseEntity.ok(carMapper.from(c)))
         .orElse(ResponseEntity.notFound().build());
   }
+
+  @ApiOperation(value = "Get Car list")
+  @ApiResponses({
+      @ApiResponse(code = 200, message = "Car"),
+      @ApiResponse(code = 500, message = "Internal Server error")
+  })
+  @GetMapping
+  public ResponseEntity<List<CarResponse>> listAll() {
+    final List<Car> carlist = getCar.execute();
+
+    return ResponseEntity.ok(carMapper.from(carlist));
+
+  }
+
 
 }

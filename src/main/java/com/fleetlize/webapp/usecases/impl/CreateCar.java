@@ -29,7 +29,7 @@ public class CreateCar implements BasicCreate<Car> {
       final var carInserted = carRepository.insert(car);
       carCreationNotifier.notify(carInserted);
       return carInserted.toBuilder().carModel(c).build();
-    }).orElseThrow(RuntimeException::new);//FIXME - create busines ex.
+    }).orElseThrow(RuntimeException::new);//FIXME - create business ex.
 
 
   }

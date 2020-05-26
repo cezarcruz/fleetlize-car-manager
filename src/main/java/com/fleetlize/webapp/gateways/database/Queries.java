@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Queries {
 
-  public static final String INSERT_CAR_MODEL = "INSERT INTO CAR_MODEL (MANUFACTURER_ID, MODEL_NAME, CREATION_DATE, MODEL_YEAR) " +
-      "VALUES (:MANUFACTURER_ID, :MODEL_NAME, :CREATION_DATE, :MODEL_YEAR)";
+  public static final String INSERT_CAR_MODEL = "INSERT INTO CAR_MODEL (MANUFACTURER_ID, MODEL_NAME, CREATION_DATE, MODEL_YEAR, CATEGORY_ID) " +
+      "VALUES (:MANUFACTURER_ID, :MODEL_NAME, :CREATION_DATE, :MODEL_YEAR, :CATEGORY_ID)";
 
   public static final String INSERT_CAR = "INSERT INTO CAR (PLATE, MILEAGE, CAR_MODEL_ID, CREATION_DATE) VALUES (:PLATE, :MILEAGE, :CAR_MODEL, :CREATION_DATE)";
 
@@ -39,4 +39,14 @@ public class Queries {
       + "WHERE c.CAR_ID = :ID";
 
   public static final String UPDATE_CAR_MODEL_CATEGORY = "UPDATE CAR_MODEL SET CATEGORY_ID = :CATEGORY_ID WHERE CAR_MODEL_ID = :CAR_MODEL_ID";
+
+  public static final String FIND_ALL_CARS = "SELECT "
+      + "car.CAR_ID, car.PLATE, car.MILEAGE, "
+      + "model.CAR_MODEL_ID, model.MODEL_NAME, model.MODEL_YEAR, "
+      + "category.CATEGORY_NAME, category.DAILY_PRICE, category.CATEGORY_ID, "
+      + "manufacturer.MANUFACTURER_ID, manufacturer.NAME "
+      + "FROM CAR car "
+      + "INNER JOIN CAR_MODEL model ON model.CAR_MODEL_ID = car.CAR_MODEL_ID "
+      + "INNER JOIN CATEGORY category ON category.CATEGORY_ID = model.CATEGORY_ID "
+      + "INNER JOIN MANUFACTURER manufacturer ON manufacturer.MANUFACTURER_ID = model.MANUFACTURER_ID";
 }

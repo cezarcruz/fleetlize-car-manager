@@ -19,11 +19,13 @@ import java.util.List;
 public interface CarModelMapper {
 
   @Mapping(source = "manufacturerId", target = "manufacturer.id")
+  @Mapping(source = "categoryId", target = "category.id")
   CarModel from(final CarModelRequest carModelRequest);
 
   CarModelResponse from(final CarModel carModel);
 
   @Mapping(source = "carModel.manufacturerId", target = "manufacturer.id")
+  @Mapping(source = "carModel.categoryId", target = "category.id")
   @Mapping(source = "id", target = "id")
   CarModel from(final CarModelRequest carModel, final Long id);
 

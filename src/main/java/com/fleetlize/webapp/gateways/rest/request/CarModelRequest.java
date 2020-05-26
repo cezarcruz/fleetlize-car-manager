@@ -23,4 +23,7 @@ public class CarModelRequest {
   @NotNull(message = "manufacturer can't be null")
   private Long manufacturerId;
 
+  @NotNull(message = "category can't be null")
+  private Long categoryId;
+
 }

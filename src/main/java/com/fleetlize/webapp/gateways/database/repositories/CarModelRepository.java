@@ -36,6 +36,7 @@ public class CarModelRepository {
     params.addValue("MANUFACTURER_ID", carModel.getManufacturer().getId());
     params.addValue("CREATION_DATE", creationDate);
     params.addValue("MODEL_YEAR", carModel.getModelYear());
+    params.addValue("CATEGORY_ID", carModel.getCategory().getId());
 
     jdbcTemplate.update(Queries.INSERT_CAR_MODEL, params, keyHolder);
 
@@ -48,7 +49,7 @@ public class CarModelRepository {
 
   public List<CarModel> list() {
     log.debug("listing all car model");
-    return jdbcTemplate.query(Queries.FIND_ALL_CAR_MODEL, carModelConverter::mapRow);
+    return jdbcTemplate.query(Queries.FIND_ALL_CAR_MODEL, carModelConverter);
   }
 
   public Optional<CarModel> findById(final Long id) {
@@ -60,8 +61,9 @@ public class CarModelRepository {
 
     try {
       return Optional.ofNullable(jdbcTemplate
-          .queryForObject(Queries.FIND_CAR_MODEL_BY_ID, params, carModelConverter::mapRow));
+          .queryForObject(Queries.FIND_CAR_MODEL_BY_ID, params, carModelConverter));
     } catch (final DataAccessException dataAccessException) {
+      log.debug("using query {}", Queries.FIND_CAR_MODEL_BY_ID);
       log.error("car not found", dataAccessException);
     }
 
