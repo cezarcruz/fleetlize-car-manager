@@ -12,5 +12,6 @@ spring:
 
 fleetlize:
   jms:
+    enabled: false
     topic:
       car-creation: car-creation

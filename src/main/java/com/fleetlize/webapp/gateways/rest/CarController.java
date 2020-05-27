@@ -52,7 +52,7 @@ public class CarController {
 
   }
 
-  @ApiOperation(value = "Get Car by Id")
+  @ApiOperation(value = "Get Car by id")
   @ApiResponses({
       @ApiResponse(code = 200, message = "Car"),
       @ApiResponse(code = 404, message = "Car not found"),

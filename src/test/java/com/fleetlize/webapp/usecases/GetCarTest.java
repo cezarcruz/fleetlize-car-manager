@@ -34,7 +34,7 @@ public class GetCarTest {
         .mileage(0)
         .plate("CCC1231")
         .build();
-    when(carRepository.findById(1L)).thenReturn(car);
+    when(carRepository.findBy(1L)).thenReturn(car);
 
     final Optional<Car> execute = getCar.execute(1L);
 
@@ -43,7 +43,7 @@ public class GetCarTest {
       assertThat(c.getId(), is(1L));
     });
 
-    verify(carRepository, times(1)).findById(1L);
+    verify(carRepository, times(1)).findBy(1L);
     verifyNoMoreInteractions(carRepository);
 
   }

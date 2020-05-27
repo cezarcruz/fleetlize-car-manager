@@ -11,9 +11,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import javax.validation.Valid;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,7 +44,7 @@ public class CategoryController {
     final Category category = categoryMapper.from(categoryRequest);
     final Category categoryCreated = createCategory.execute(category);
     final CategoryResponse categoryResponse = categoryMapper.from(categoryCreated);
-    return ResponseEntity.ok(categoryResponse);
+    return ResponseEntity.status(HttpStatus.CREATED).body(categoryResponse);
   }
 
   @ApiOperation(value = "Get Category by id")

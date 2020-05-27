@@ -1,5 +1,6 @@
 package com.fleetlize.webapp.gateways.rest.request;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
+@Builder(toBuilder = true)
 public class CarModelRequest {
 
   @NotEmpty(message = "model can't be null")

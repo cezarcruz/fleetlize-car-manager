@@ -1,7 +1,6 @@
 package com.fleetlize.webapp.gateways.database.repositories.converters;
 
 import com.fleetlize.webapp.entities.Category;
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;

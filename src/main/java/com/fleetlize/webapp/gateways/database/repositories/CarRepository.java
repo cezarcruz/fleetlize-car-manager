@@ -42,7 +42,7 @@ public class CarRepository {
 
   }
 
-  public Car findById(final Long id) {
+  public Car findBy(final Long id) {
 
     log.debug("finding car by id = {}", id);
     final MapSqlParameterSource params = new MapSqlParameterSource();
@@ -62,4 +62,5 @@ public class CarRepository {
     log.debug("finding all cars");
     return jdbcTemplate.query(Queries.FIND_ALL_CARS, carConverter);
   }
+
 }
