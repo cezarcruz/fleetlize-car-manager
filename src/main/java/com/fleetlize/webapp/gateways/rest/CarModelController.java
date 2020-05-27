@@ -7,9 +7,7 @@ import com.fleetlize.webapp.gateways.rest.response.CarModelResponse;
 import com.fleetlize.webapp.usecases.impl.CreateCarModel;
 import com.fleetlize.webapp.usecases.impl.DeleteCarModel;
 import com.fleetlize.webapp.usecases.impl.GetCarModel;
-import com.fleetlize.webapp.usecases.impl.GetCategory;
 import com.fleetlize.webapp.usecases.impl.UpdateCarModel;
-import com.fleetlize.webapp.usecases.impl.UpdateModelCategory;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -42,8 +40,6 @@ public class CarModelController {
   private final DeleteCarModel deleteCarModel;
   private final UpdateCarModel updateCarModel;
   private final CarModelMapper carModelMapper;
-  private final GetCategory getCategory;
-  private final UpdateModelCategory modelCategory;
 
   @ApiOperation(value = "Creates a new Car Model")
   @ApiResponses({

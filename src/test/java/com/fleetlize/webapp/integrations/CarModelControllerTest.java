@@ -1,5 +1,6 @@
 package com.fleetlize.webapp.integrations;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -54,6 +55,14 @@ public class CarModelControllerTest extends IntegrationTest {
                   .andExpect(status().isOk())
                   .andExpect(jsonPath("$.model").value(modelToUpdate.getModel()));
 
+        }).andDo(result -> {
+          final Integer id = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
+          mockMvc.perform(delete(URL + "/" + id)
+              .contentType(MediaType.APPLICATION_JSON))
+              .andExpect(status().isNoContent());
+
+          mockMvc.perform(get(URL + "/" + id).contentType(MediaType.APPLICATION_JSON))
+              .andExpect(status().isNotFound());
         })
     ;
   }
