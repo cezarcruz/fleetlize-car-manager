@@ -26,7 +26,7 @@ public class CategoryRepository {
     final MapSqlParameterSource params = new MapSqlParameterSource();
 
     params.addValue("NAME", category.getName());
-    params.addValue("DAILY_PRICE", category.getDailyPrice().multiply(BigDecimal.valueOf(100)).intValue());
+    params.addValue("DAILY_PRICE", category.getDailyPrice());
 
     jdbcTemplate.update(Queries.INSERT_CATEGORY, params, keyHolder);
 
@@ -42,7 +42,7 @@ public class CategoryRepository {
     final MapSqlParameterSource params = new MapSqlParameterSource();
     params.addValue("ID", id);
 
-    return jdbcTemplate.queryForObject(Queries.FIND_CATEGORY_BY_ID, params, categoryConverter::mapRow);
+    return jdbcTemplate.queryForObject(Queries.FIND_CATEGORY_BY_ID, params, categoryConverter);
 
   }
 }

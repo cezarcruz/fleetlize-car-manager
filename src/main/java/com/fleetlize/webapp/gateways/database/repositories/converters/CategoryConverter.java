@@ -12,11 +12,10 @@ public class CategoryConverter implements RowMapper<Category> {
 
   @Override
   public Category mapRow(final ResultSet resultSet, final int rowNum) throws SQLException {
-    final int dailyPrice = resultSet.getInt("DAILY_PRICE");
     return Category.builder()
         .id(resultSet.getLong("CATEGORY_ID"))
         .name(resultSet.getString("CATEGORY_NAME"))
-        .dailyPrice(BigDecimal.valueOf((double) dailyPrice / 100)) //FIXME - float problem ;)
+        .dailyPrice(resultSet.getBigDecimal("DAILY_PRICE"))
         .build();
   }
 }

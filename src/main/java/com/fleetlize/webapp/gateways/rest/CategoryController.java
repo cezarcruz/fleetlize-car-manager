@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,13 +25,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping("/category")
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Api(value = "Category")
 public class CategoryController {
 
-  private CategoryMapper categoryMapper;
-  private CreateCategory createCategory;
-  private GetCategory getCategory;
+  private final CategoryMapper categoryMapper;
+  private final CreateCategory createCategory;
+  private final GetCategory getCategory;
 
   @ApiOperation(value = "Creates a new Category")
   @ApiResponses({
