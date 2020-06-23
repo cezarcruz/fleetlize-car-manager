@@ -19,7 +19,7 @@
 
   <properties>
     <java.version>11</java.version>
-    <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
+    <springfox-swagger2.version>2.10.0</springfox-swagger2.version>
     <!-- Sonar -->
     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
